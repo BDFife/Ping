@@ -20,7 +20,7 @@ function love.update(dt)
         ball.x = 100
         ball.y = 100
         ball.x_vel = 40
-        ball.y_vel = 40
+        ball.y_vel = 80
     end
     
     if love.keyboard.isDown("right") then
@@ -62,6 +62,29 @@ function love.update(dt)
     if ball.exists == true then
         ball.x = ball.x + ball.x_vel * dt
         ball.y = ball.y + ball.y_vel * dt
+        if ball.x > 800 then
+            ball.x_vel = -1 * ball.x_vel
+        end
+        if ball.x < 0 then
+            ball.x_vel = -1 * ball.x_vel
+        end
+        if ball.y < 0 then
+            ball.y_vel = -1 * ball.y_vel
+        end
+        if ball.y > 600 then
+            ball.exists = false
+        end
+        
+        -- detect collision. probably shouldn't be here.
+        if ball.y > (paddle.y - 10) then
+            if ball.y < paddle.y then
+                if paddle.x < ball.x then
+                    if ball.x < (paddle.x + 100) then
+                        ball.y_vel = -1 * ball.y_vel
+                    end
+                end
+            end
+        end
 
     end
 end
