@@ -6,13 +6,21 @@ function love.load()
     base_speed = 100
     speed = 100
     direction = nil
+    ball_x = 0
+    ball_y = 0
+    x_vel = 0
+    y_vel = 0
+    ball = false
 end
 
 function love.update(dt)
     -- this is kind of f'd up. " " is the spacebar. 
     if love.keyboard.isDown(" ") then
-        x = 50
-        y = 500
+        ball = true
+        ball_x = 100
+        ball_y = 100
+        x_vel = 40
+        y_vel = 40
     end
     
     if love.keyboard.isDown("right") then
@@ -50,9 +58,18 @@ function love.update(dt)
         speed = base_speed
         direction = nil
     end
+    
+    if ball == true then
+        ball_x = ball_x + x_vel * dt
+        ball_y = ball_y + y_vel * dt
+
+    end
 end
 
 function love.draw()
     love.graphics.setColor(255,255,255,255)
     love.graphics.rectangle("fill", x, y, 100, 20)
+    if ball == true then
+        love.graphics.rectangle("fill", ball_x, ball_y, 15, 15)
+    end
 end
