@@ -1,6 +1,6 @@
 
 function love.conf(t)
-    t.title = "Lua Test Game"
+    t.title = "Table Tennis Trainer"
     t.author = "Brian Fife"
     t.identity = nil
     t.version = "0.7.2"
@@ -15,7 +15,7 @@ function love.conf(t)
     t.modules.audio = false
     t.modules.keyboard = true
     t.modules.event = true
-    t.modules.image = true
+    t.modules.image = false
     t.modules.graphics = true
     t.modules.timer = true
     t.modules.mouse = false
