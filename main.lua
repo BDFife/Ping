@@ -34,7 +34,8 @@ function love.load()
                exists = false }
 
     screen = { width = love.graphics.getWidth(),
-               height = love.graphics.getHeight() }
+               height = love.graphics.getHeight(),
+               origin = 0 }
 
 
     -- need to think about this in a more general sense
@@ -51,6 +52,12 @@ function love.update(dt)
         ball.x_vel = 60
         ball.y_vel = 200
         
+    end
+    
+
+    
+    if love.keyboard.isDown("down") then
+        debug.debug()
     end
     
     if love.keyboard.isDown("up") then
@@ -72,10 +79,10 @@ function love.update(dt)
         -- think about where the 0 actually is.
         -- yep, 0 is the left corner. 
         -- the upper left corner.  
-        if paddle.x > 0 then
+        if paddle.x > screen.origin then
             paddle.x = paddle.x - (paddle.speed * dt )
         else
-            paddle.x = 0
+            paddle.x = screen.origin
         end
         paddle.direction = "right"
         
@@ -85,12 +92,11 @@ function love.update(dt)
         else
             paddle.speed = paddle.base_speed
         end
-        -- this is dirty, since the window resolution is implicit. Fixme! 
         -- detect if paddle is at the end of the screen and if so, stop. 
-        if paddle.x < (800 - paddle.width) then 
+        if paddle.x < (screen.width - paddle.width) then 
             paddle.x = paddle.x + (paddle.speed * dt )
         else
-            paddle.x = (800 - paddle.width) 
+            paddle.x = (screen.width - paddle.width) 
         end
         paddle.direction = "left"
         
@@ -103,22 +109,22 @@ function love.update(dt)
     if ball.exists == true then
         ball.x = ball.x + ball.x_vel * dt
         ball.y = ball.y + ball.y_vel * dt
-        if ball.x > (800-ball.width) then
+        if ball.x > (screen.width-ball.width) then
             if ball.x_vel > 0 then
                 ball.x_vel = -1 * ball.x_vel
             end
         end
-        if ball.x < 0 then
+        if ball.x < screen.origin then
             if ball.x_vel < 0 then
                 ball.x_vel = -1 * ball.x_vel
             end
         end
-        if ball.y < 0 then
+        if ball.y < screen.origin then
             if ball.y_vel < 0 then
                 ball.y_vel = -1 * ball.y_vel
             end
         end
-        if ball.y > 600 then
+        if ball.y > screen.height then
             ball.exists = false
         end
         
@@ -152,7 +158,7 @@ function love.draw()
         love.graphics.rectangle("fill", ball.x, ball.y, ball.width, ball.height)
     end
     
-    --vel_str = t.screen.width -- ball.y_vel
+    --vel_str = screen.width
     --love.graphics.print(vel_str, 10, 200)
 
 end
