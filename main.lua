@@ -1,16 +1,41 @@
 -- Löve Lua Tutorial
 
+function speedup()
+-- this is for debug only 
+    ball.x_vel = ball.x_vel * 1.2
+    ball.y_vel = ball.y_vel * 1.2
+end
+
+function checkBoundaries()
+-- this should be built generically 
+-- but building specifically for now
+
+
+end
+    
+
 function love.load()
+    
     paddle = { x = 50,
                y = 500,
-               speed = 100,
+               width = 100,
+               height = 20,
+               speed = 0,
                base_speed = 100,
+               delta_speed = 10,
                direction = nil }
+    
     ball =   { x = 0,
                y = 0,
+               width = 15,
+               height = 15,
                x_vel = 0,
                y_vel = 0,
                exists = false }
+
+    screen = { width = love.graphics.getWidth(),
+               height = love.graphics.getHeight() }
+
 
     -- need to think about this in a more general sense
     debounce = false
@@ -30,8 +55,7 @@ function love.update(dt)
     
     if love.keyboard.isDown("up") then
         if debounce == false then
-            ball.x_vel = ball.x_vel * 1.2     
-            ball.y_vel = ball.y_vel * 1.2
+            speedup()
             debounce = true
         end
     else
@@ -41,7 +65,7 @@ function love.update(dt)
     
     if love.keyboard.isDown("right") then
         if paddle.direction == "right" then
-           paddle.speed = paddle.speed + 10 
+           paddle.speed = paddle.speed + paddle.delta_speed 
         else
             paddle.speed = paddle.base_speed
         end
@@ -57,16 +81,16 @@ function love.update(dt)
         
     elseif love.keyboard.isDown("left") then
         if paddle.direction == "left" then
-            paddle.speed = paddle.speed + 10
+            paddle.speed = paddle.speed + paddle.delta_speed
         else
             paddle.speed = paddle.base_speed
         end
         -- this is dirty, since the window resolution is implicit. Fixme! 
         -- detect if paddle is at the end of the screen and if so, stop. 
-        if paddle.x < (800 - 100) then 
+        if paddle.x < (800 - paddle.width) then 
             paddle.x = paddle.x + (paddle.speed * dt )
         else
-            paddle.x = (800 - 100) 
+            paddle.x = (800 - paddle.width) 
         end
         paddle.direction = "left"
         
@@ -79,7 +103,7 @@ function love.update(dt)
     if ball.exists == true then
         ball.x = ball.x + ball.x_vel * dt
         ball.y = ball.y + ball.y_vel * dt
-        if ball.x > (800-15) then
+        if ball.x > (800-ball.width) then
             if ball.x_vel > 0 then
                 ball.x_vel = -1 * ball.x_vel
             end
@@ -103,10 +127,10 @@ function love.update(dt)
         -- speed is so great it quantum tunnels through the paddle. 
         -- bounce is a little 'edgy' - a square bounce on a trivial corner overlap
         
-        if ball.y > (paddle.y - 10) then
+        if ball.y > (paddle.y - ball.height) then
             if ball.y < paddle.y then
-                if paddle.x < (ball.x + 10) then
-                    if ball.x < (paddle.x + 100) then
+                if paddle.x < (ball.x + ball.width) then
+                    if ball.x < (paddle.x + paddle.width) then
                         if ball.y_vel > 0 then
                             ball.y_vel = -1 * ball.y_vel
                         end
@@ -123,12 +147,12 @@ end
 
 function love.draw()
     love.graphics.setColor(255,255,255,255)
-    love.graphics.rectangle("fill", paddle.x, paddle.y, 100, 20)
+    love.graphics.rectangle("fill", paddle.x, paddle.y, paddle.width, paddle.height)
     if ball.exists == true then
-        love.graphics.rectangle("fill", ball.x, ball.y, 15, 15)
+        love.graphics.rectangle("fill", ball.x, ball.y, ball.width, ball.height)
     end
     
-    vel_str = ball.y_vel
-    love.graphics.print(vel_str, 10, 200)
+    --vel_str = t.screen.width -- ball.y_vel
+    --love.graphics.print(vel_str, 10, 200)
 
 end
