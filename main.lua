@@ -1,16 +1,26 @@
 -- Löve Lua Tutorial
 
 function speedup()
--- this is for debug only 
+    -- this is for debug only 
     ball.x_vel = ball.x_vel * 1.2
     ball.y_vel = ball.y_vel * 1.2
 end
 
-function checkBoundaries()
--- this should be built generically 
--- but building specifically for now
-
-
+function checkBoundaries(box_o, box_p, item_o, item_p, item_vel)
+    -- item is within the boundaries
+    if box_o < item_o and item_p < box_p then 
+        return true
+    else
+        -- if the velocity is already correct, don't worry about it. 
+        if box_o > item_o and item_vel > 0 then
+            return true
+        elseif item_p > box_p and item_vel < 0 then
+            return true
+        else
+            -- item is outside the box and needs to 'bounce'
+            return false
+        end
+    end
 end
     
 
@@ -109,28 +119,20 @@ function love.update(dt)
     if ball.exists == true then
         ball.x = ball.x + ball.x_vel * dt
         ball.y = ball.y + ball.y_vel * dt
-        if ball.x > (screen.width-ball.width) then
-            if ball.x_vel > 0 then
-                ball.x_vel = -1 * ball.x_vel
-            end
+
+        if not checkBoundaries(screen.origin, screen.width, ball.x, ball.x + ball.width,
+                               ball.x_vel) then                               
+            ball.x_vel = -1 * ball.x_vel
         end
-        if ball.x < screen.origin then
-            if ball.x_vel < 0 then
-                ball.x_vel = -1 * ball.x_vel
-            end
-        end
-        if ball.y < screen.origin then
-            if ball.y_vel < 0 then
-                ball.y_vel = -1 * ball.y_vel
-            end
-        end
-        if ball.y > screen.height then
-            ball.exists = false
+        
+        if not checkBoundaries(screen.origin, screen.height, ball.y, ball.y+ ball.height, 
+                               ball.y_vel) then
+            ball.y_vel = -1 * ball.y_vel
         end
         
         -- detect collision. probably shouldn't be here. 
-        -- collision doesn't work when speed crosses the limit. This is because the 
-        -- speed is so great it quantum tunnels through the paddle. 
+        -- collision doesn't work when speed crosses a certain limit. This is because the 
+        -- speed is so great it "blinks" past the paddle between frames. 
         -- bounce is a little 'edgy' - a square bounce on a trivial corner overlap
         
         if ball.y > (paddle.y - ball.height) then
@@ -158,7 +160,11 @@ function love.draw()
         love.graphics.rectangle("fill", ball.x, ball.y, ball.width, ball.height)
     end
     
-    --vel_str = screen.width
+    --if checkBoundaries(0, screen.height, ball.y) then
+    --    vel_str = "True"
+    --else
+    --    vel_str = "False"
+    --end
     --love.graphics.print(vel_str, 10, 200)
 
 end
