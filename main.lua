@@ -1,11 +1,15 @@
 -- Löve Lua Tutorial
 
+
+-- I use this function to speed up the ball while testing. 
+-- At the moment, triggered with the 'up' key.
 function speedup()
     -- this is for debug only 
     ball.x_vel = ball.x_vel * 1.2
     ball.y_vel = ball.y_vel * 1.2
 end
 
+-- Function to check if the ball has left the screen.
 function checkBoundaries(box_o, box_p, item_o, item_p, item_vel)
     -- item is within the boundaries
     if box_o < item_o and item_p < box_p then 
@@ -47,14 +51,20 @@ function love.load()
                height = love.graphics.getHeight(),
                origin = 0 }
 
-
-    -- need to think about this in a more general sense
+    -- I don't like having this here, but haven't bothered 
+    -- to put in something sexier. 
     debounce = false
 
 end
 
 function love.update(dt)
-    -- this is kind of f'd up. " " is the spacebar. 
+
+	-- ---------------------
+	-- Step 1: 
+	-- Check for keypresses. 
+	-- ---------------------
+	
+    -- " " is the spacebar. Use it to 'reset' the ball position.
     if love.keyboard.isDown(" ") then
         ball.exists = true
         ball.x = 100
@@ -64,12 +74,14 @@ function love.update(dt)
         
     end
     
-
-    
+    -- I don't remember what this does anymore! 
     if love.keyboard.isDown("down") then
         debug.debug()
     end
     
+    
+    -- Speed up the ball. Need to debounce to keep from running out of
+    -- control. 
     if love.keyboard.isDown("up") then
         if debounce == false then
             speedup()
@@ -79,16 +91,14 @@ function love.update(dt)
         debounce = false
     end
     
-    
+    -- Paddle right.
     if love.keyboard.isDown("right") then
         if paddle.direction == "right" then
            paddle.speed = paddle.speed + paddle.delta_speed 
         else
             paddle.speed = paddle.base_speed
         end
-        -- think about where the 0 actually is.
-        -- yep, 0 is the left corner. 
-        -- the upper left corner.  
+        -- 0 is the upper left corner of the paddle.  
         if paddle.x > screen.origin then
             paddle.x = paddle.x - (paddle.speed * dt )
         else
@@ -96,6 +106,7 @@ function love.update(dt)
         end
         paddle.direction = "right"
         
+    -- Paddle left.    
     elseif love.keyboard.isDown("left") then
         if paddle.direction == "left" then
             paddle.speed = paddle.speed + paddle.delta_speed
@@ -110,30 +121,45 @@ function love.update(dt)
         end
         paddle.direction = "left"
         
-    -- if left or right isn't being pressed, stop the paddle. 
+    -- If left or right isn't being pressed, stop the paddle. 
     else
         paddle.speed = paddle.base_speed
         paddle.direction = nil
     end
     
+    -- ---------------
+    -- Step 2: 
+    -- Move the ball
+    -- ---------------
     if ball.exists == true then
+
+		-- Move the ball
         ball.x = ball.x + ball.x_vel * dt
         ball.y = ball.y + ball.y_vel * dt
 
+		
+		-- If the ball is leaving the bottom of the screen, disable it: 
+		if ball.y > (paddle.y + paddle.height + ball.height*2) then
+			ball.exists = false
+		end
+		
+		-- Check X axis and reflect if there is a collision
         if not checkBoundaries(screen.origin, screen.width, ball.x, ball.x + ball.width,
                                ball.x_vel) then                               
             ball.x_vel = -1 * ball.x_vel
         end
         
+        -- Check Y axis and reflect if there is a collision
         if not checkBoundaries(screen.origin, screen.height, ball.y, ball.y+ ball.height, 
                                ball.y_vel) then
             ball.y_vel = -1 * ball.y_vel
         end
         
-        -- detect collision. probably shouldn't be here. 
-        -- collision doesn't work when speed crosses a certain limit. This is because the 
+        -- Check for collision with the paddle. 
+        -- Collision doesn't work when speed crosses a certain limit. This is because the 
         -- speed is so great it "blinks" past the paddle between frames. 
-        -- bounce is a little 'edgy' - a square bounce on a trivial corner overlap
+        -- Bounce is very simplistic - a square bounce on a trivial corner overlap
+        -- Other implementations have the edges of the paddle act as "slopes"
         
         if ball.y > (paddle.y - ball.height) then
             if ball.y < paddle.y then
@@ -146,13 +172,10 @@ function love.update(dt)
                 end
             end
         end
-
-
-
-
     end
 end
 
+-- Update the screen.
 function love.draw()
     love.graphics.setColor(255,255,255,255)
     love.graphics.rectangle("fill", paddle.x, paddle.y, paddle.width, paddle.height)
@@ -160,6 +183,7 @@ function love.draw()
         love.graphics.rectangle("fill", ball.x, ball.y, ball.width, ball.height)
     end
     
+    -- Optional code to show the ball velocity.
     --if checkBoundaries(0, screen.height, ball.y) then
     --    vel_str = "True"
     --else
