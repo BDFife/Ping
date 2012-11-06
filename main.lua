@@ -11,6 +11,8 @@ end
 
 function collider(object, box, internal)
 	if internal == true then
+		-- remember, velocity must be checked so you don't 
+		-- flip twice in succession.
 		if object.x < box.x and object.x_vel < 0 then
 			object.x_vel = object.x_vel * -1
 		elseif (object.x + object.width) > (box.x + box.width) and
@@ -22,6 +24,45 @@ function collider(object, box, internal)
 		elseif (object.y + object.height) > (box.y + box.height) and	
 			   object.y_vel > 0 then
 			object.y_vel = object.y_vel * -1
+		end
+	else 
+		-- the object is normally outside the box. 		
+		-- this code assumes the object is never wholly contained within the box
+		-- check for x overlap
+		left = false
+		right = false
+		top = false
+		bottom = false
+
+		-- check left edge
+		if object.x < (box.x + box.width) then
+			if object.x > box.x then
+				left = true
+			end
+		end
+		-- check right edge		
+		if (object.x + object.width) < (box.x + box.width) then
+			if (object.x + object.width) > box.x then
+				right = true
+			end
+		end 
+		-- if right or left overlap, then check top/bottom
+		if left == true or right == true then
+			-- if ball moving down, check the top
+			if object.y_vel > 0 then
+				if (object.y + object.height) > box.y then
+					if (object.y + object.height) < (box.y + box.height) then 
+						object.y_vel = object.y_vel * -1
+					end
+				end
+			-- if ball moving up, check the bottom
+			elseif object.y_vel < 0 then
+				if object.y < (box.y + box.height) then
+					if object.y > box.y then
+						object.y_vel = object.y_vel * -1
+					end
+				end
+			end
 		end
 	end
 end	
@@ -178,48 +219,35 @@ function love.update(dt)
 			ball.exists = false
 		end
 
-		-- see if the ball leaves the box		
+		-- see if the ball hits an edge (not the bottom)		
 		if ball.exists == true then
 			collider(ball, screen, true)
 		end
-		-- Check X axis and reflect if there is a collision
-        --if not checkBoundaries(screen.origin, screen.width, ball.x, ball.x + ball.width,
-        --                       ball.x_vel) then                               
-        --    ball.x_vel = -1 * ball.x_vel
-        --end
-        
-        -- Check Y axis and reflect if there is a collision
-        --if not checkBoundaries(screen.origin, screen.height, ball.y, ball.y+ ball.height, 
-        --                       ball.y_vel) then
-        --    ball.y_vel = -1 * ball.y_vel
-        --end
-        
+
         -- Check for collision with the paddle. 
         -- Collision doesn't work when speed crosses a certain limit. This is because the 
         -- speed is so great it "blinks" past the paddle between frames. 
         -- Bounce is very simplistic - a square bounce on a trivial corner overlap
         -- Other implementations have the edges of the paddle act as "slopes"
+        if ball.exists == true then
+        	collider(ball, paddle, false)
+        end
         
-        if ball.y > (paddle.y - ball.height) then
-            if ball.y < paddle.y then
-                if paddle.x < (ball.x + ball.width) then
-                    if ball.x < (paddle.x + paddle.width) then
-                        if ball.y_vel > 0 then
-                            ball.y_vel = -1 * ball.y_vel
-                            
-        
+        if ball.exists == true then
+        	for i, brick in ipairs(bricks) do
+        		if brick.exists == true then
+        			-- collider(ball, brick, false)
+        			brick.exists = true
+        		end
+        	end
+        end
                             
     	-- Check for collision with the bricks.
-    	--for i,brick in ipairs(bricks) do
-    		--if brick.exists == true then
-    			--if checkBoundaries(brick.x, brick.height, ball.y, ball.y + ball.height,
-    							   --ball.y_vel) then
-    			
-                        end
-                    end
-                end
-            end
-        end
+    	for i,brick in ipairs(bricks) do
+    		if brick.exists == true then
+				collider(ball, brick, false)
+			end
+		end
     end
 end
 
