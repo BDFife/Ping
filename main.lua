@@ -66,25 +66,6 @@ function collider(object, box, internal)
 		end
 	end
 end	
-		
--- Function to check if the ball has left the screen.
-function checkBoundaries(box_o, box_p, item_o, item_p, item_vel)
-    -- item is within the boundaries
-    if box_o < item_o and item_p < box_p then 
-        return true
-    else
-        -- if the velocity is already correct, don't worry about it. 
-        if box_o > item_o and item_vel > 0 then
-            return true
-        elseif item_p > box_p and item_vel < 0 then
-            return true
-        else
-            -- item is outside the box and needs to 'bounce'
-            return false
-        end
-    end
-end
-    
 
 function love.load()
     
