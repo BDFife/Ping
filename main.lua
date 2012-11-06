@@ -66,6 +66,8 @@ function love.load()
 
     screen = { width = love.graphics.getWidth(),
                height = love.graphics.getHeight(),
+               x = 0,
+               y = 0,
                origin = 0 }
 
 	bricks = { { exists = true,
