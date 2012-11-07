@@ -147,18 +147,13 @@ function love.update(dt)
         if ball.exists == true then
         	for i, brick in ipairs(bricks) do
         		if brick.exists == true then
-        			-- collider(ball, brick, false)
-        			brick.exists = true
+        			bounce = collider(ball, brick, false)
+        			if bounce == true then
+        				brick.exists = false
+        			end
         		end
         	end
         end
-                            
-    	-- Check for collision with the bricks.
-    	for i,brick in ipairs(bricks) do
-    		if brick.exists == true then
-				collider(ball, brick, false)
-			end
-		end
     end
 end
 

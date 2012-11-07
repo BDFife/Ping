@@ -7,7 +7,6 @@ This is (currently) a barebones 'brick break' type game that's intended to serve
 ## Known Issues
 
 * Missing intro/opening screen
-* Bricks do not disappear when struck
 * No score
 * Paddle 'english' not implemented
 * Bouncing against the side of a brick is not supported

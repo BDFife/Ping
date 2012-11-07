@@ -43,6 +43,7 @@ function collider(object, box, internal)
 				if (object.y + object.height) > box.y then
 					if (object.y + object.height) < (box.y + box.height) then 
 						object.y_vel = object.y_vel * -1
+						return true
 					end
 				end
 			-- if ball moving up, check the bottom
@@ -50,9 +51,14 @@ function collider(object, box, internal)
 				if object.y < (box.y + box.height) then
 					if object.y > box.y then
 						object.y_vel = object.y_vel * -1
+						return true
 					end
 				end
+			else
+				return false
 			end
+		else
+			return false
 		end
 	end
 end	
