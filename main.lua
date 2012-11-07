@@ -1,4 +1,7 @@
--- Löve Lua Tutorial
+-- Ping (Table Tennis Trainer)
+
+require "brick"
+
 
 
 -- I use this function to speed up the ball while testing. 
@@ -92,21 +95,7 @@ function love.load()
                y = 0,
                origin = 0 }
 
-	bricks = { { exists = true,
-				 x = 100, 
-				 y = 20,
-				 width = 30,
-				 height = 20 },
-			   { exists = true,
-			   	 x = 300,
-			   	 y = 20,
-			   	 width = 30,
-			   	 height = 20 },
-			   { exists = true,
-			   	 x = 500,
-			   	 y = 50,
-			   	 width = 30,
-			   	 height = 20 } }
+	bricks = load_bricks()
 
     -- I don't like having this here, but haven't bothered 
     -- to put in something sexier. 
