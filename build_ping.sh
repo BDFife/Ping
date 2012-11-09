@@ -1,3 +1,3 @@
 rm ./ping.love
-zip ping.love ./conf.lua ./main.lua ./brick.lua ./collider.lua
+zip -j ping.love ./conf.lua ./main.lua ./brick.lua ./collider.lua ./Samples/*
 open ./ping.love
