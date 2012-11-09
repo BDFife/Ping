@@ -1,17 +1,35 @@
-function load_bricks() 
+function load_bricks()
+	brick_snd = love.audio.newSource("Boom.mp3", "static")
+	brick2_snd = love.audio.newSource("Boom.mp3", "static")
+
 	return { { exists = true,
 				 x = 100, 
 				 y = 20,
-				 width = 30,
-				 height = 20 },
+				 width = 100,
+				 height = 20,
+				 snd = brick_snd },
 			   { exists = true,
 			   	 x = 300,
 			   	 y = 20,
-			   	 width = 30,
-			   	 height = 20 },
+			   	 width = 100,
+			   	 height = 20,
+			   	 snd = brick2_snd },
 			   { exists = true,
 			   	 x = 500,
-			   	 y = 50,
-			   	 width = 30,
-			   	 height = 20 } }
+			   	 y = 20,
+			   	 width = 100,
+			   	 height = 20,
+			   	 snd = brick2_snd },
+			   { exists = true,
+			   	 x = 200,
+			   	 y = 100,
+			   	 width = 100,
+			   	 height = 20,
+			   	 snd = brick2_snd },
+			   { exists = true,
+			   	 x = 400,
+			   	 y = 100,
+			   	 width = 100,
+			   	 height = 20,
+			   	 snd = brick2_snd } }
 end

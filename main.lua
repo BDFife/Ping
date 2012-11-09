@@ -42,6 +42,10 @@ function love.load()
     -- to put in something sexier. 
     debounce = false
 
+	bounce_snd = love.audio.newSource("Boing.mp3", "static")
+	wall_snd = love.audio.newSource("Bing.mp3", "static")
+	fail_snd = love.audio.newSource("GameOver.mp3", "static")
+
 end
 
 function love.update(dt)
@@ -128,11 +132,15 @@ function love.update(dt)
 		-- If the ball is leaving the bottom of the screen, disable it: 
 		if ball.y > (paddle.y + paddle.height + ball.height*2) then
 			ball.exists = false
+			love.audio.play(fail_snd)
 		end
 
 		-- see if the ball hits an edge (not the bottom)		
 		if ball.exists == true then
-			collider(ball, screen, true)
+			bounce = collider(ball, screen, true)
+			if bounce == true then
+				love.audio.play(wall_snd)
+			end
 		end
 
         -- Check for collision with the paddle. 
@@ -141,7 +149,10 @@ function love.update(dt)
         -- Bounce is very simplistic - a square bounce on a trivial corner overlap
         -- Other implementations have the edges of the paddle act as "slopes"
         if ball.exists == true then
-        	collider(ball, paddle, false)
+        	bounce = collider(ball, paddle, false)
+        	if bounce == true then
+        		love.audio.play(bounce_snd)
+        	end
         end
         
         if ball.exists == true then
@@ -150,6 +161,7 @@ function love.update(dt)
         			bounce = collider(ball, brick, false)
         			if bounce == true then
         				brick.exists = false
+        				love.audio.play(brick.snd)
         			end
         		end
         	end

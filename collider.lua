@@ -3,18 +3,28 @@ function collider(object, box, internal)
 	if internal == true then
 		-- remember, velocity must be checked so you don't 
 		-- flip twice in succession.
+		
+		bounced = false
+		
 		if object.x < box.x and object.x_vel < 0 then
 			object.x_vel = object.x_vel * -1
+			bounced = true
 		elseif (object.x + object.width) > (box.x + box.width) and
 			   object.x_vel > 0 then
 			object.x_vel = object.x_vel * -1
+			bounced = true
 		end
 		if object.y < box.y and object.y_vel < 0 then
 			object.y_vel = object.y_vel * -1
+			bounced = true
 		elseif (object.y + object.height) > (box.y + box.height) and	
 			   object.y_vel > 0 then
 			object.y_vel = object.y_vel * -1
+			bounced = true
 		end
+		
+		return bounced
+		
 	else 
 		-- the object is normally outside the box. 		
 		-- this code assumes the object is never wholly contained within the box
