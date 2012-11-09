@@ -10,4 +10,4 @@ This is (currently) a barebones 'brick break' type game that's intended to serve
 * No score
 * Paddle 'english' not implemented
 * Bouncing against the side of a brick is not supported
-* Audio is not supported
+* The same audio asset can't play twice overlapping, it seems. Need to look into this. 
