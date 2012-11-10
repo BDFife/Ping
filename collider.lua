@@ -1,5 +1,6 @@
 
 function collider(object, box, internal)
+	-- This is the case of a ball inside a box.
 	if internal == true then
 		-- remember, velocity must be checked so you don't 
 		-- flip twice in succession.
@@ -24,7 +25,8 @@ function collider(object, box, internal)
 		end
 		
 		return bounced
-		
+
+	-- This is the case of a ball hitting a brick or paddle. 
 	else 
 		-- the object is normally outside the box. 		
 		-- this code assumes the object is never wholly contained within the box
