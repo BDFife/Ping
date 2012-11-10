@@ -12,14 +12,16 @@ import string
 
 usage = """
 Usage: 
-    python pingprocessor.py <inputfilename> <outputfilenamebase>
-
+    python pingprocessor.py <inputfilename>
+    
 Example:
-    python pingprocessor.py Heresy.mp3 Heresy
+    python pingprocessor.py Heresy.mp3
     
 """
 
-def main(input_filename, output_filename):
+def main(input_filename):
+    
+    output_filename = input_filename.split('.')[0]
     
     sounds = []
     bricks = []
@@ -100,22 +102,24 @@ def config_output(output_filename, sounds):
 def luacode_output(output_filename, sounds):
     f = open("%s.ping.lua" % output_filename, 'w')
     
+    f.write('function load_bricks()\n')
+    
     for sound in sounds:
-        f.write("brick_%s = love.audio.newSource('%s', 'static')\n" % (sound.split(".")[0], sound))
+        f.write("\tbrick_%s = love.audio.newSource('%s', 'static')\n" % (sound.split(".")[0], sound))
     
     row = 0
     col = 0
-    f.write("return { \n")
+    f.write("\treturn { \n")
     for sound in sounds:
-        f.write("{ exists = true, x = %d, y = %d, width = 100, height = 20, snd = brick_%s },\n" % (col * 100, row * 20, sound.split(".")[0]))
+        f.write("\t\t{ exists = true, x = %d, y = %d, width = 100, height = 20, snd = brick_%s },\n" % (col * 100, row * 20, sound.split(".")[0]))
         
         col += 1
         if col >= 8:
             col=0
             row +=1
         
-    f.write(" }\n")
-    
+    f.write("\t }\n")
+    f.write("end")
 
 def dump(obj):
     for attr in dir(obj):
@@ -124,10 +128,9 @@ def dump(obj):
 if __name__ == '__main__':
     try:
         input_filename = sys.argv[1]
-        output_filename = sys.argv[2]
      
     except:
         print usage
         sys.exit(-1)
    
-    main(input_filename, output_filename)
+    main(input_filename)

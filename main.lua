@@ -1,6 +1,6 @@
 -- Ping (Table Tennis Trainer)
 
-require "brick"
+require "brickgen"
 require "collider"
 require "brick_core"
 require "menu_core"
@@ -16,7 +16,7 @@ end
 function love.load()
     menu = true
     menu_position = 0
-    
+        
     paddle = { x = 50,
                y = 500,
                width = 100,
