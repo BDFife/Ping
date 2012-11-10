@@ -1,6 +1,31 @@
 function game_update(dt)
 
 	-- ---------------------
+	-- Step 0: 
+	-- Don't break the speed limit
+	-- ---------------------
+	if ball.y_vel > 600 then
+		ball.y_vel = 600
+	elseif ball.y_vel < -600 then
+		ball.y_vel = -600
+	elseif ball.y_vel > 0 and ball.y_vel < 100 then
+		ball.y_vel = 100
+	elseif ball.y_vel < 0 and ball.y_vel > -100 then
+		ball.y_vel = -100
+	end
+	
+	if ball.x_vel > 400 then
+		ball.x_vel = 400
+	elseif ball.x_vel < -400 then
+		ball.x_vel = -400
+	elseif ball.x_vel > 0 and ball.x_vel < 30 then
+		ball.x_vel = 30
+	elseif ball.x_vel < 0 and ball.x_vel > -30 then
+		ball.x_vel = -30
+	end
+	
+
+	-- ---------------------
 	-- Step 1: 
 	-- Check for keypresses. 
 	-- ---------------------
@@ -10,8 +35,8 @@ function game_update(dt)
         ball.exists = true
         ball.x = 200
         ball.y = 200
-        ball.x_vel = 60
-        ball.y_vel = 200
+        ball.x_vel = 100
+        ball.y_vel = 400
         
     end
     
@@ -137,11 +162,5 @@ function game_draw()
 		end
 	end
 
-    -- Optional code to show the ball velocity.
-    --if checkBoundaries(0, screen.height, ball.y) then
-    --    vel_str = "True"
-    --else
-    --    vel_str = "False"
-    --end
-    --love.graphics.print(vel_str, 10, 200)
+    love.graphics.print(ball.x_vel, 10, 200)
 end
