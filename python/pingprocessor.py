@@ -122,8 +122,8 @@ def luacode_output(output_filename, sounds):
     colors.append((c2, c1, c3))
     colors.append((c2, c1, c2))
     colors.append((c3, c1, c2))
-    colors.append((c1, c1, c2))
-    colors.append((c1, c3, c2))
+    # colors.append((c1, c1, c2))
+    # colors.append((c1, c3, c2))
    
 
     color_counter = 0
