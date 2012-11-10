@@ -39,11 +39,11 @@ function game_update(dt)
         else
             paddle.speed = paddle.base_speed
         end
-        -- 0 is the upper left corner of the paddle.  
-        if paddle.x > screen.origin then
-            paddle.x = paddle.x - (paddle.speed * dt )
+        -- detect if paddle is at the end of the screen and if so, stop. 
+        if paddle.x < (screen.width - paddle.width) then 
+            paddle.x = paddle.x + (paddle.speed * dt )
         else
-            paddle.x = screen.origin
+            paddle.x = (screen.width - paddle.width) 
         end
         paddle.direction = "right"
         
@@ -54,11 +54,11 @@ function game_update(dt)
         else
             paddle.speed = paddle.base_speed
         end
-        -- detect if paddle is at the end of the screen and if so, stop. 
-        if paddle.x < (screen.width - paddle.width) then 
-            paddle.x = paddle.x + (paddle.speed * dt )
+        -- 0 is the upper left corner of the paddle.  
+        if paddle.x > screen.origin then
+            paddle.x = paddle.x - (paddle.speed * dt )
         else
-            paddle.x = (screen.width - paddle.width) 
+            paddle.x = screen.origin
         end
         paddle.direction = "left"
         
