@@ -77,6 +77,20 @@ function collider(object, box, internal)
 				if object.y < (box.y + box.height) then
 					if object.y > box.y then
 						object.y_vel = object.y_vel * -1
+						if (left == true and right == false) then
+							if object.x_vel > 0 then 
+								object.x_vel = 1.5 * object.x_vel
+							else
+								object.x_vel = .5 * object.x_vel
+							end
+						elseif (left == false and right == true) then
+							if object.x_vel > 0 then
+								object.x_vel = .5 * object.x_vel
+							else
+								object.x_vel = 1.5 * object.x_vel
+							end
+						end
+
 						return true
 					end
 				end
