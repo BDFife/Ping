@@ -48,6 +48,7 @@ function collider(object, box, internal)
 				right = true
 			end
 		end 
+	
 		-- if right or left overlap, then check top/bottom
 		if left == true or right == true then
 			-- if ball moving down, check the top
@@ -55,6 +56,19 @@ function collider(object, box, internal)
 				if (object.y + object.height) > box.y then
 					if (object.y + object.height) < (box.y + box.height) then 
 						object.y_vel = object.y_vel * -1
+						if (left == true and right == false) then
+							if object.x_vel > 0 then 
+								object.x_vel = 1.5 * object.x_vel
+							else
+								object.x_vel = .5 * object.x_vel
+							end
+						elseif (left == false and right == true) then
+							if object.x_vel > 0 then
+								object.x_vel = .5 * object.x_vel
+							else
+								object.x_vel = 1.5 * object.x_vel
+							end
+						end
 						return true
 					end
 				end
