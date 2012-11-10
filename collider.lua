@@ -55,7 +55,14 @@ function collider(object, box, internal)
 			if object.y_vel > 0 then
 				if (object.y + object.height) > box.y then
 					if (object.y + object.height) < (box.y + box.height) then 
-						object.y_vel = object.y_vel * -1
+						-- first, assume if the ball-center is below the topline,
+						-- is is a sidebounce. 
+						if (object.y + (object.height / 2)) > box.y then
+							object.x_vel = object.x_vel * -1
+							return true	
+						else
+							object.y_vel = object.y_vel * -1
+						end
 						if (left == true and right == false) then
 							if object.x_vel > 0 then 
 								object.x_vel = (1 + paddle_english.x) * object.x_vel
@@ -80,7 +87,14 @@ function collider(object, box, internal)
 			elseif object.y_vel < 0 then
 				if object.y < (box.y + box.height) then
 					if object.y > box.y then
-						object.y_vel = object.y_vel * -1
+						-- first, assume if the ball-center is above the bottomline,
+						-- this is a sidebounce.
+						if (object.y + (object.height / 2)) < (box.y + box.height) then
+							object.x_vel = object.x_vel * -1
+							return true
+						else
+							object.y_vel = object.y_vel * -1
+						end
 						if (left == true and right == false) then
 							if object.x_vel > 0 then 
 								object.x_vel = (1 + paddle_english.x) * object.x_vel
