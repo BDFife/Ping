@@ -15,6 +15,7 @@ end
 
 function love.load()
     menu = true
+    menu_position = 0
     
     paddle = { x = 50,
                y = 500,
@@ -50,7 +51,7 @@ function love.load()
 
 	-- Using PressStart2P font from http://openfontlibrary.org/en/font/press-start-2p
 	menu_font = love.graphics.newFont("PressStart2P.ttf", 18)
-	
+	small_menu_font = love.graphics.newFont("PressStart2P.ttf", 14)
 	
 	-- These are the core game sounds. The brick breaking sound is managed
 	-- via the brick object.
