@@ -162,5 +162,5 @@ function game_draw()
 		end
 	end
 
-    love.graphics.print(ball.x_vel, 10, 200)
+    -- love.graphics.print(ball.x_vel, 10, 200)
 end
