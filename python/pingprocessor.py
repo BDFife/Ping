@@ -12,10 +12,10 @@ import string
 
 usage = """
 Usage: 
-    python pingprocessor.py <segments|tatums|beats|bars|sections> <inputfilename> <outputfilenamebase>
+    python pingprocessor.py <inputfilename> <outputfilenamebase>
 
 Example:
-    python pingprocessor.py beats Heresy.mp3 Heresy
+    python pingprocessor.py Heresy.mp3 Heresy
     
 """
 
@@ -39,12 +39,13 @@ def main(input_filename, output_filename):
         this_filename = "%s%d.mp3" % (output_filename, counter)
         
         sounds.append("%s" % this_filename)
-        # out.encode(this_filename)
+        out.encode(this_filename)
         
-        if counter == 20:
+        if counter == 80:
             break
         
     luacode_output(output_filename, sounds)
+    config_output(output_filename, sounds)
     
         
     
@@ -89,15 +90,15 @@ def main(input_filename, output_filename):
     """
 
 
-def configoutput(output_filename, sounds):
+def config_output(output_filename, sounds):
     f = open("%s.ping" % output_filename, 'w')
     
     for sound in sounds:
-        f.write("sound")
+        f.write("%s\n" % sound)
     
 
 def luacode_output(output_filename, sounds):
-    f = open("%s.ping" % output_filename, 'w')
+    f = open("%s.ping.lua" % output_filename, 'w')
     
     for sound in sounds:
         f.write("brick_%s = love.audio.newSource('%s', 'static')\n" % (sound.split(".")[0], sound))
@@ -106,10 +107,10 @@ def luacode_output(output_filename, sounds):
     col = 0
     f.write("return { \n")
     for sound in sounds:
-        f.write("{ exists = true, x = %d, y = %d, width = 100, height = 20, snd = brick_%s },\n" % (col * 200, row * 20, sound.split(".")[0]))
+        f.write("{ exists = true, x = %d, y = %d, width = 100, height = 20, snd = brick_%s },\n" % (col * 100, row * 20, sound.split(".")[0]))
         
         col += 1
-        if col >= 4:
+        if col >= 8:
             col=0
             row +=1
         
