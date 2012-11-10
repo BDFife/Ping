@@ -16,7 +16,7 @@ end
 function love.load()
     menu = true
     menu_position = 0
-        
+            
     paddle = { x = 50,
                y = 500,
                width = 100,
