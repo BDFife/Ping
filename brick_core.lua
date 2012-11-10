@@ -8,8 +8,8 @@ function game_update(dt)
     -- " " is the spacebar. Use it to 'reset' the ball position.
     if love.keyboard.isDown(" ") then
         ball.exists = true
-        ball.x = 100
-        ball.y = 100
+        ball.x = 200
+        ball.y = 200
         ball.x_vel = 60
         ball.y_vel = 200
         
