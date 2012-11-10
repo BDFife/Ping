@@ -39,6 +39,10 @@ function love.load()
                y = 0,
                origin = 0 }
 
+	paddle_english = { x = .5,
+					   y = .2 } 
+						
+
 	bricks = load_bricks()
 
     -- I don't like having this here, but haven't bothered 
