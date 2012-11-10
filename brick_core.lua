@@ -120,7 +120,9 @@ function game_update(dt)
 end
 
 function game_draw()
-    love.graphics.setColor(255,255,255,255)
+    love.graphics.setBackgroundColor(63, 63, 63, 255)
+
+    love.graphics.setColor(220,220,204)
 	-- draw rectangle    
     love.graphics.rectangle("fill", paddle.x, paddle.y, paddle.width, paddle.height)
 	-- draw ball
@@ -130,6 +132,7 @@ function game_draw()
 	-- draw bricks
 	for i, brick in ipairs(bricks) do
 		if brick.exists == true then
+		    love.graphics.setColor(brick.r, brick.g, brick.b)
 			love.graphics.rectangle("fill", brick.x, brick.y, brick.width, brick.height)
 		end
 	end

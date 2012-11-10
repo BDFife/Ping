@@ -107,16 +107,41 @@ def luacode_output(output_filename, sounds):
     for sound in sounds:
         f.write("\tbrick_%s = love.audio.newSource('%s', 'static')\n" % (sound.split(".")[0], sound))
     
+    c1 = 205
+    c2 = 147
+    c3 = 176
+    
+    colors =[]
+    colors.append((c1, c2, c2))
+    colors.append((c1, c2, c3))
+    colors.append((c1, c2, c1))
+    colors.append((c3, c2, c1))
+    colors.append((c2, c2, c1))
+    colors.append((c2, c3, c1))
+    colors.append((c2, c1, c1))
+    colors.append((c2, c1, c3))
+    colors.append((c2, c1, c2))
+    colors.append((c3, c1, c2))
+    colors.append((c1, c1, c2))
+    colors.append((c1, c3, c2))
+   
+
+    color_counter = 0
+    
     row = 0
     col = 0
     f.write("\treturn { \n")
     for sound in sounds:
-        f.write("\t\t{ exists = true, x = %d, y = %d, width = 100, height = 20, snd = brick_%s },\n" % (col * 100, row * 20, sound.split(".")[0]))
+        f.write("\t\t{ exists = true, x = %d, y = %d, width = 100, height = 20, snd = brick_%s, r=%d, g=%d, b=%d },\n" % (col * 100, row * 20, sound.split(".")[0], colors[color_counter][0], colors[color_counter][1], colors[color_counter][2]))
         
         col += 1
         if col >= 8:
             col=0
             row +=1
+            
+        color_counter += 1
+        if (color_counter >= len(colors)):
+            color_counter = 0              
         
     f.write("\t }\n")
     f.write("end")
