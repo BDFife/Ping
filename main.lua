@@ -42,13 +42,16 @@ function love.load()
 	paddle_english = { x = .5,
 					   y = .2 } 
 						
-
 	bricks = load_bricks()
 
     -- I don't like having this here, but haven't bothered 
     -- to put in something sexier. 
     debounce = false
 
+	-- Using PressStart2P font from http://openfontlibrary.org/en/font/press-start-2p
+	menu_font = love.graphics.newFont("PressStart2P.ttf", 18)
+	
+	
 	-- These are the core game sounds. The brick breaking sound is managed
 	-- via the brick object.
 	bounce_snd = love.audio.newSource("Boing.mp3", "static")

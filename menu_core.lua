@@ -5,6 +5,7 @@ function menu_update(dt)
 end
 
 function menu_draw()
+	love.graphics.setFont(menu_font)
     menu_str = "This is the menu. Hit spacebar, dummy!"
     love.graphics.print(menu_str, 10, 200)
 end
