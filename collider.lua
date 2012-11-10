@@ -80,14 +80,18 @@ function collider(object, box, internal)
 						if (left == true and right == false) then
 							if object.x_vel > 0 then 
 								object.x_vel = 1.5 * object.x_vel
+								object.y_vel = 1.2 * object.y_vel
 							else
 								object.x_vel = .5 * object.x_vel
+								object.y_vel = .8 * object.y_vel
 							end
 						elseif (left == false and right == true) then
 							if object.x_vel > 0 then
 								object.x_vel = .5 * object.x_vel
+								object.y_vel = .8 * object.y_vel
 							else
 								object.x_vel = 1.5 * object.x_vel
+								object.y_vel = 1.2 * object.y_vel
 							end
 						end
 
