@@ -241,7 +241,7 @@ def luacode_output(output_filename, sounds, audiofile):
     speed = audiofile.analysis.tempo['value'] * audiofile.analysis.tempo['confidence'] 
     
     default_x = 100
-    default_y = 400
+    default_y = 475
         
     x = default_x + (speed - 110)
     y = default_y  + (speed - 110)

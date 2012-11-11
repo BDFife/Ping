@@ -8,20 +8,20 @@ function game_update(dt)
 		ball.y_vel = max_ball_y
 	elseif ball.y_vel < (max_ball_y * -1) then
 		ball.y_vel = (max_ball_y * -1)
-	elseif ball.y_vel > 0 and ball.y_vel < 100 then
-		ball.y_vel = 100
-	elseif ball.y_vel < 0 and ball.y_vel > -100 then
-		ball.y_vel = -100
+	elseif ball.y_vel > 0 and ball.y_vel < min_ball_y then
+		ball.y_vel = min_ball_y
+	elseif ball.y_vel < 0 and ball.y_vel > (min_ball_y * -1) then
+		ball.y_vel = (min_ball_y * -1)
 	end
 	
 	if ball.x_vel > max_ball_x then
 		ball.x_vel = max_ball_x
 	elseif ball.x_vel < (-1 * max_ball_x) then
 		ball.x_vel = (-1 * max_ball_x)
-	elseif ball.x_vel > 0 and ball.x_vel < 30 then
-		ball.x_vel = 30
-	elseif ball.x_vel < 0 and ball.x_vel > -30 then
-		ball.x_vel = -30
+	elseif ball.x_vel > 0 and ball.x_vel < (min_ball_x) then
+		ball.x_vel = (min_ball_x * -1)
+	elseif ball.x_vel < 0 and ball.x_vel > (min_ball_x * -1) then
+		ball.x_vel = (min_ball_x * -1)
 	end
 	
 	

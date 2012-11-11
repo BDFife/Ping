@@ -22,6 +22,8 @@ function love.load()
     drag = 1000
     max_ball_y = 600
     max_ball_x = 400
+    min_ball_y = 100
+    min_ball_x = 30
     
     
     paddle = { x = 50,
