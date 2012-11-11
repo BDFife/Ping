@@ -1,7 +1,7 @@
  function menu_update(dt)
 	-- Keyboard
 
-    if love.keyboard.isDown(" ") then
+    if love.keyboard.isDown(" ") or love.keyboard.isDown("return") then
        bricks = load_bricks()
        state = load_state()
        menu = false 

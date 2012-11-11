@@ -50,10 +50,10 @@ function game_update(dt)
     -- " " is the spacebar. Use it to 'reset' the ball position.
     if love.keyboard.isDown(" ") then
         ball.exists = true
-        ball.x = 200
-        ball.y = 200
+        ball.x = paddle.x + (0.5 * paddle.width)
+        ball.y = paddle.y
         ball.x_vel = state.ball_x
-        ball.y_vel = state.ball_y
+        ball.y_vel = state.ball_y * -1
         
     end
     

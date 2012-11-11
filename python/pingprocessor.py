@@ -78,8 +78,8 @@ def main(input_filename):
         
         out.encode(this_filename)
         
-        if counter == 80:
-            break    
+        #if counter == 80:
+        #    break    
     
     bc = 0
     
@@ -169,8 +169,13 @@ def luacode_output(output_filename, sounds, audiofile, background_out):
     
     longrow = False
     max_bricks_in_row = 8
+    
+    max_vert_pixels = 900
         
     for sound in sounds:
+        
+        if row * 50 >= max_vert_pixels:
+            break
         
         bar = sound[0]
         segment = sound[1]
