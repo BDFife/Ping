@@ -149,7 +149,9 @@ function game_update(dt)
         			bounce = collider(ball, brick, false)
         			if bounce == true then
         				brick.exists = false
-        				love.audio.play(brick.snd)
+        				if love.audio.getNumSources() < 4 then
+	        				love.audio.play(brick.snd)
+	        			end
         			end
         		end
         	end
@@ -198,4 +200,6 @@ function game_draw()
     love.graphics.print(ball.x_vel, 10, 250)
     love.graphics.print(ball.y_vel, 10, 275)
     love.graphics.print(background_snd:tell("seconds"), 10, 300)
+    love.graphics.print(love.audio.getNumSources(), 10, 325)
+
 end

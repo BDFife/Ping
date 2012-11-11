@@ -63,6 +63,7 @@ function love.load()
 	wall_snd = love.audio.newSource("Bing.mp3", "static")
 	fail_snd = love.audio.newSource("GameOver.mp3", "static")
 	
+	-- Looping Audio
 	background_snd = love.audio.newSource("background.mp3", "static")
 	background_snd:setVolume(0.5)
 	background_snd:setLooping(true)
