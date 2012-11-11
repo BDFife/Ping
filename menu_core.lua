@@ -38,8 +38,8 @@ function menu_update(dt)
 			load_loop()
 		elseif menu_position == 1 then
 			love.audio.stop()
-			love.filesystem.load("ShareItMaybe.lua")()
-			load_loop()
+			--love.filesystem.load("ShareItMaybe.lua")()
+			--load_loop()
 		end
 		loaded_menu = menu_position
 	end   	
