@@ -183,7 +183,10 @@ function game_update(dt)
         			bounce = collider(ball, brick, false)
         			if bounce == true then
         				brick.exists = false
-        				if love.audio.getNumSources() < 4 then
+						-- erase the brick, and play the brick's associated
+						-- music clip, synchronized to the main loop, 
+						-- if there aren't too many sources playing. 
+        				if love.audio.getNumSources() < 3 then
 	        				love.audio.play(brick.snd)
 	        			end
         			end
