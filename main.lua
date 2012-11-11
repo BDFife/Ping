@@ -56,9 +56,6 @@ function love.load()
 	bricks = {}
 	state = {}
 	background_snd = {}			
-	--bricks = load_bricks()
-	
-	--state = load_state()
 
     -- I don't like having this here, but haven't bothered 
     -- to put in something sexier. 
@@ -75,12 +72,6 @@ function love.load()
 	wall_snd = love.audio.newSource("Bing.mp3", "static")
 	fail_snd = love.audio.newSource("GameOver.mp3", "static")
 	
-	-- Looping Audio
-	-- background_snd = love.audio.newSource("background.mp3", "static")
-	-- background_snd:setVolume(0.5)
-	-- background_snd:setLooping(true)
-	-- love.audio.play(background_snd)
-
 end
 
 -- Perform computations, etc. between screen refreshes.
