@@ -166,4 +166,10 @@ function load_state()
 	return { ball_x=49, ball_y=424}
 end
 function load_loop()
-	background_snd = love.audio.newSource("Trouba_background.mp3", "static")	background_snd:setVolume(0.5)	background_snd:setLooping(true)	love.audio.play(background_snd)end
+	background_snd = love.audio.newSource("Trouba_background.mp3", "static")
+	background_snd:setVolume(0.25)
+	background_snd:setLooping(true)
+	background_length = 78.2827664399
+	song_length = 245.47619
+	love.audio.play(background_snd)
+end
