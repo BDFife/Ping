@@ -9,6 +9,8 @@ The game takes a music file as an input and uses it to generate a field of brick
 
 ## Building your own music
 
+TBD.
+
 ## Acknowledgments
 
 ECHOBREAKOUT was built using [The EchoNest Remix Library](http://echonest.github.com/remix/) and [The Löve2d framework](Love2d.org). 

@@ -1,4 +1,4 @@
-function menu_update(dt)
+ function menu_update(dt)
 	-- Keyboard
 
     if love.keyboard.isDown(" ") then
@@ -14,14 +14,14 @@ function menu_update(dt)
     if love.keyboard.isDown("up") then
     	if debounce == false then
     		debounce = true
-    		if menu_position > 0 then
+    		if menu_position > 1 then
     			menu_position = menu_position - 1
     		end
     	end
     elseif love.keyboard.isDown("down") then
     	if debounce == false then
     		debounce = true
-    		if menu_position  < 2 then 
+    		if menu_position  < 3 then 
     			menu_position = menu_position + 1
     		end
     	end
@@ -32,14 +32,18 @@ function menu_update(dt)
 
 	-- Now load the data
 	if not (loaded_menu == menu_position) then
-		if menu_position == 0 then
+		if menu_position == 1 then
 			love.audio.stop()
-			love.filesystem.load("Trouba.lua")()
+			love.filesystem.load(manifest[1][2])()
 			load_loop()
-		elseif menu_position == 1 then
+		elseif menu_position == 2 then
 			love.audio.stop()
-			--love.filesystem.load("ShareItMaybe.lua")()
-			--load_loop()
+			love.filesystem.load(manifest[2][2])()
+			load_loop()
+		elseif menu_position == 3 then
+			love.audio.stop()
+			love.filesystem.load(manifest[3][2])()
+			load_loop()
 		end
 		loaded_menu = menu_position
 	end   	
@@ -63,11 +67,11 @@ function menu_draw()
 	-- menu_str = "Press Space to Play"
 	-- love.graphics.setFont(small_menu_font)
 	-- menu_str = love.filesystem.getWorkingDirectory()
-	menu_str = "Trouba"
+	menu_str = manifest[1][1]
 	love.graphics.print(menu_str, 200, 250)
-    menu_str = "Cookie Monster"
+    menu_str = manifest[2][1]
     love.graphics.print(menu_str, 200, 300)
-	menu_str = "Carly Rae"
+	menu_str = manifest[3][1]
 	love.graphics.print(menu_str, 200, 350)
 	love.graphics.setFont(small_menu_font)
 	
@@ -77,5 +81,5 @@ function menu_draw()
 	menu_str = "by @BDFife and @JimFingal"
 	love.graphics.print(menu_str, 60, 530)
 	love.graphics.setColor(255,255,255,100)
-	love.graphics.rectangle("fill", 180, 240 + (50 * menu_position), 400, 30)
+	love.graphics.rectangle("fill", 180, 190 + (50 * menu_position), 400, 30)
 end

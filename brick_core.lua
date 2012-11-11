@@ -33,11 +33,13 @@ function game_update(dt)
 	
 	-- Esc re-sets the board
 	if love.keyboard.isDown("escape") then
-		winner = false
-		ball.exists = false
-		for i, brick in ipairs(bricks) do
-        		brick.exists = true
-        end
+		love.audio.stop()
+		menu = true
+		--winner = false
+		--ball.exists = false
+		--for i, brick in ipairs(bricks) do
+        --		brick.exists = true
+        --end
     end
     
     if love.keyboard.isDown("q") then

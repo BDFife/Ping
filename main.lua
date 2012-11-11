@@ -14,7 +14,7 @@ end
 
 function love.load()
     menu = true
-    menu_position = 0
+    menu_position = 1
     -- fixme: the below is just set to NOT match with above.
     loaded_menu = 2
     winner = false
@@ -73,6 +73,9 @@ function love.load()
 	bounce_snd = love.audio.newSource("Boing.mp3", "static")
 	wall_snd = love.audio.newSource("Bing.mp3", "static")
 	fail_snd = love.audio.newSource("GameOver.mp3", "static")
+
+	love.filesystem.load("manifest.lua")()
+	manifest = load_playlist()
 	
 end
 
