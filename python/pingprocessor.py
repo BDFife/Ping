@@ -136,6 +136,8 @@ def luacode_output(output_filename, sounds, audiofile):
     
     count = 0
     
+    sounds.reverse()
+    
     for sound in sounds:
         
         count +=1
