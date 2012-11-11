@@ -80,12 +80,12 @@ function load_bricks()
 		{ exists = true, x = 450, y = 80, width = 100, height = 20, snd = brick_MonsterOnCampus9, r=205, g=147, b=176, brightness_index=1 },
 		{ exists = true, x = 550, y = 80, width = 100, height = 20, snd = brick_MonsterOnCampus8, r=205, g=147, b=147, brightness_index=0 },
 		{ exists = true, x = 650, y = 80, width = 100, height = 20, snd = brick_MonsterOnCampus7, r=205, g=147, b=147, brightness_index=0 },
-		{ exists = true, x = 0, y = 100, width = 100, height = 20, snd = brick_MonsterOnCampus6, r=205, g=147, b=147, brightness_index=0 },
-		{ exists = true, x = 100, y = 100, width = 100, height = 20, snd = brick_MonsterOnCampus5, r=205, g=147, b=176, brightness_index=1 },
-		{ exists = true, x = 200, y = 100, width = 100, height = 20, snd = brick_MonsterOnCampus4, r=176, g=147, b=205, brightness_index=3 },
-		{ exists = true, x = 300, y = 100, width = 100, height = 20, snd = brick_MonsterOnCampus3, r=205, g=147, b=147, brightness_index=0 },
-		{ exists = true, x = 400, y = 100, width = 100, height = 20, snd = brick_MonsterOnCampus2, r=205, g=147, b=147, brightness_index=0 },
-		{ exists = true, x = 500, y = 100, width = 100, height = 20, snd = brick_MonsterOnCampus1, r=205, g=147, b=147, brightness_index=0 },
+		{ exists = true, x = 100, y = 100, width = 100, height = 20, snd = brick_MonsterOnCampus6, r=205, g=147, b=147, brightness_index=0 },
+		{ exists = true, x = 200, y = 100, width = 100, height = 20, snd = brick_MonsterOnCampus5, r=205, g=147, b=176, brightness_index=1 },
+		{ exists = true, x = 300, y = 100, width = 100, height = 20, snd = brick_MonsterOnCampus4, r=176, g=147, b=205, brightness_index=3 },
+		{ exists = true, x = 400, y = 100, width = 100, height = 20, snd = brick_MonsterOnCampus3, r=205, g=147, b=147, brightness_index=0 },
+		{ exists = true, x = 500, y = 100, width = 100, height = 20, snd = brick_MonsterOnCampus2, r=205, g=147, b=147, brightness_index=0 },
+		{ exists = true, x = 600, y = 100, width = 100, height = 20, snd = brick_MonsterOnCampus1, r=205, g=147, b=147, brightness_index=0 },
 	 }
 end
 function load_state()
