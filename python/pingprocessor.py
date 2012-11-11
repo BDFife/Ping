@@ -75,7 +75,7 @@ def main(input_filename):
             break
     
     background_out = audio.getpieces(audiofile, background)
-    background_out.encode("background.mp3") 
+    background_out.encode("%s_background.mp3" % output_filename) 
     
     luacode_output(output_filename, sounds, audiofile)
 
@@ -126,15 +126,17 @@ def main(input_filename):
 
 
 def luacode_output(output_filename, sounds, audiofile):
-    f = open("%s.ping.lua" % output_filename, 'w')
+    f = open("%s.lua" % output_filename, 'w')
     
     f.write('function load_bricks()\n')
     
-    loudness_total = float(0)
-    loudness_min = float(1000000)
-    loudness_max = float(-100000)
+    total = float(0)
+    min = float(1000000)
+    max = float(-100000)
     
     count = 0
+    
+    sounds.reverse()
     
     for sound in sounds:
         
@@ -144,23 +146,25 @@ def luacode_output(output_filename, sounds, audiofile):
         segment = sound[1]
         filename = sound[2]
         
-        print "Bar %d max loudness %f" % (count, segment.loudness_max)
+        feature_val = segment.timbre[1]
+        
+        print "Bar %d max brightness %f" % (count, feature_val)
 
-        loudness_total += segment.loudness_max
+        total += feature_val
         
-        if segment.loudness_max < loudness_min:
-            loudness_min = segment.loudness_max
+        if feature_val < min:
+            min = feature_val
         
-        if segment.loudness_max > loudness_max:
-            loudness_max = segment.loudness_max
+        if feature_val > max:
+            max = feature_val
         
         f.write("\tbrick_%s = love.audio.newSource('%s', 'static')\n" % (filename.split(".")[0], filename))
     
-    loudness_average = float(loudness_total / float(count))
+    average = float(total / float(count))
  
-    print "Average Loudness: %f" % loudness_average
-    print "Max Loudness: %f" % loudness_max
-    print "Min Loudness: %f" % loudness_min
+    print "Average Feature Value: %f" % average
+    print "Max Feature Value: %f" % max
+    print "Min Feature Value: %f" % min
     
     c1 = 205
     c2 = 147
@@ -195,16 +199,41 @@ def luacode_output(output_filename, sounds, audiofile):
         segment = sound[1]
         filename = sound[2]
         
-        f.write("\t\t{ exists = true, x = %d, y = %d, width = 100, height = 20, snd = brick_%s, r=%d, g=%d, b=%d },\n" % (col * 100, row * 20, filename.split(".")[0], colors[color_counter][0], colors[color_counter][1], colors[color_counter][2]))
+        brightness = segment.timbre[1]
+        
+        color_index = 0
+        
+        draw = True
+        
+        if brightness < 0:
+            color_index = 9
+        elif brightness < 20:
+            color_index = 8
+        elif brightness < 30:
+            color_index = 7
+        elif brightness < 40:
+            color_index = 6
+        elif brightness < 50:
+            color_index = 5
+        elif brightness < 60:
+            color_index = 4
+        elif brightness < 70:
+            color_index = 3
+        elif brightness < 80:
+            color_index = 2
+        elif brightness < 90:
+            color_index = 1
+        elif brightness > 100:
+            color_index = 0
+            
+        if draw:
+            f.write("\t\t{ exists = true, x = %d, y = %d, width = 100, height = 20, snd = brick_%s, r=%d, g=%d, b=%d, brightness_index=%d },\n" % (col * 100, row * 20, filename.split(".")[0], colors[color_index][0], colors[color_index][1], colors[color_index][2], color_index))
         
         col += 1
         if col >= 8:
             col=0
-            row +=1
-            
-        color_counter += 1
-        if (color_counter >= len(colors)):
-            color_counter = 0              
+            row +=1            
+          
         
     f.write("\t }\n")
     f.write("end\n")
@@ -212,7 +241,7 @@ def luacode_output(output_filename, sounds, audiofile):
     speed = audiofile.analysis.tempo['value'] * audiofile.analysis.tempo['confidence'] 
     
     default_x = 100
-    default_y = 400
+    default_y = 475
         
     x = default_x + (speed - 110)
     y = default_y  + (speed - 110)
@@ -226,9 +255,12 @@ def luacode_output(output_filename, sounds, audiofile):
     f.write('function load_state()\n')
     f.write("\treturn { ball_x=%d, ball_y=%d}\n" % (x, y))
     f.write("end\n")
-
-
-    
+    f.write('function load_loop()\n')
+    f.write('\tbackground_snd = love.audio.newSource("%s_background.mp3", "static")' % output_filename)
+    f.write('\tbackground_snd:setVolume(0.5)')
+    f.write('\tbackground_snd:setLooping(true)')
+    f.write('\tlove.audio.play(background_snd)')
+    f.write('end\n')
     
 def dump(obj):
     for attr in dir(obj):

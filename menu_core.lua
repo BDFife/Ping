@@ -1,5 +1,9 @@
 function menu_update(dt)
+	-- Keyboard
+
     if love.keyboard.isDown(" ") then
+       bricks = load_bricks()
+       state = load_state()
        menu = false 
     end
     
@@ -7,8 +11,6 @@ function menu_update(dt)
     	love.event.push("quit")
     end
 	
-
-    --[[
     if love.keyboard.isDown("up") then
     	if debounce == false then
     		debounce = true
@@ -25,9 +27,22 @@ function menu_update(dt)
     	end
     else
     	debounce = false
-    end
-    ]]
-    	
+	end
+    
+
+	-- Now load the data
+	if not (loaded_menu == menu_position) then
+		if menu_position == 0 then
+			love.audio.stop()
+			love.filesystem.load("Trouba.lua")()
+			load_loop()
+		elseif menu_position == 1 then
+			love.audio.stop()
+			--love.filesystem.load("ShareItMaybe.lua")()
+			--load_loop()
+		end
+		loaded_menu = menu_position
+	end   	
 end
 
 function menu_draw()
@@ -45,12 +60,15 @@ function menu_draw()
     love.graphics.setColor(220,220,204)
     
     
-	menu_str = "Press Space to Play"
+	-- menu_str = "Press Space to Play"
+	-- love.graphics.setFont(small_menu_font)
+	-- menu_str = love.filesystem.getWorkingDirectory()
+	menu_str = "Trouba"
 	love.graphics.print(menu_str, 200, 250)
---	menu_str = "Another option" 
---	love.graphics.print(menu_str, 200, 300)
---	menu_str = "Last option"
---	love.graphics.print(menu_str, 200, 350)
+    menu_str = "Cookie Monster"
+    love.graphics.print(menu_str, 200, 300)
+	menu_str = "Carly Rae"
+	love.graphics.print(menu_str, 200, 350)
 	love.graphics.setFont(small_menu_font)
 	
 	love.graphics.setColor(147,176,204)
@@ -58,10 +76,6 @@ function menu_draw()
 	love.graphics.print(menu_str, 60, 500)
 	menu_str = "by @BDFife and @JimFingal"
 	love.graphics.print(menu_str, 60, 530)
-	-- love.graphics.setColor(255,255,255,100)
-	-- love.graphics.rectangle("fill", 180, 240 + (50 * menu_position), 400, 30)
+	love.graphics.setColor(255,255,255,100)
+	love.graphics.rectangle("fill", 180, 240 + (50 * menu_position), 400, 30)
 end
-
-
-
-
