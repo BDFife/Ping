@@ -4,25 +4,26 @@ function game_update(dt)
 	-- Step 0: 
 	-- Don't break the speed limit
 	-- ---------------------
-	if ball.y_vel > 600 then
-		ball.y_vel = 600
-	elseif ball.y_vel < -600 then
-		ball.y_vel = -600
+	if ball.y_vel > max_ball_y then
+		ball.y_vel = max_ball_y
+	elseif ball.y_vel < (max_ball_y * -1) then
+		ball.y_vel = (max_ball_y * -1)
 	elseif ball.y_vel > 0 and ball.y_vel < 100 then
 		ball.y_vel = 100
 	elseif ball.y_vel < 0 and ball.y_vel > -100 then
 		ball.y_vel = -100
 	end
 	
-	if ball.x_vel > 400 then
-		ball.x_vel = 400
-	elseif ball.x_vel < -400 then
-		ball.x_vel = -400
+	if ball.x_vel > max_ball_x then
+		ball.x_vel = max_ball_x
+	elseif ball.x_vel < (-1 * max_ball_x) then
+		ball.x_vel = (-1 * max_ball_x)
 	elseif ball.x_vel > 0 and ball.x_vel < 30 then
 		ball.x_vel = 30
 	elseif ball.x_vel < 0 and ball.x_vel > -30 then
 		ball.x_vel = -30
 	end
+	
 	
 
 	-- ---------------------
@@ -42,6 +43,7 @@ function game_update(dt)
     if love.keyboard.isDown("q") then
     	love.event.push("quit")
     end
+    
 	
     -- " " is the spacebar. Use it to 'reset' the ball position.
     if love.keyboard.isDown(" ") then
@@ -53,9 +55,8 @@ function game_update(dt)
         
     end
     
-    -- I don't remember what this does anymore! 
-    if love.keyboard.isDown("down") then
-        debug.debug()
+    if love.keyboard.isDown("d") then
+        debug = true
     end
     
     
@@ -100,10 +101,32 @@ function game_update(dt)
         end
         paddle.direction = "left"
         
-    -- If left or right isn't being pressed, stop the paddle. 
+    -- If left or right isn't being pressed, slow the paddle down. 
     else
-        paddle.speed = paddle.base_speed
-        paddle.direction = nil
+    
+     	paddle.speed = paddle.speed - (drag * dt)
+
+		if paddle.direction == "left" then
+			if paddle.x > screen.origin then
+	            paddle.x = paddle.x - (paddle.speed * dt )
+	        else
+	            paddle.x = screen.origin
+	            paddle.direction = "right"
+	        end
+	    elseif paddle.direction == "right" then
+		    if paddle.x < (screen.width - paddle.width) then 
+	            paddle.x = paddle.x + (paddle.speed * dt )
+	        else
+	            paddle.x = (screen.width - paddle.width) 
+	            paddle.direction = "left"
+	        end
+	    end
+		
+
+		if paddle.speed < 0 then
+	       paddle.speed = 0
+		   paddle.direction = "Stopped"
+		end
     end
     
     -- ---------------
@@ -197,9 +220,15 @@ function game_draw()
 		love.graphics.print("Press Spacebar to Start", 250, 400)
 	end
 
-    love.graphics.print(ball.x_vel, 10, 250)
-    love.graphics.print(ball.y_vel, 10, 275)
-    love.graphics.print(background_snd:tell("seconds"), 10, 300)
-    love.graphics.print(love.audio.getNumSources(), 10, 325)
+	if debug then
+	    love.graphics.print("vX:" .. ball.x_vel, 10, 250)
+	    love.graphics.print("vY:" .. ball.y_vel, 10, 275)
+	    love.graphics.print("bgdSecs:" .. background_snd:tell("seconds"), 10, 300)
+	    love.graphics.print("srcs:" .. love.audio.getNumSources(), 10, 325)
+	    love.graphics.print("pS:" .. paddle.speed, 10, 350)
+	    love.graphics.print("pD:" ..paddle.direction, 10, 375)
+	    love.graphics.print("pX:" ..paddle.x, 10, 400)
+    end
+    
 
 end

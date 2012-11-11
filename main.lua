@@ -17,6 +17,12 @@ function love.load()
     menu = true
     menu_position = 0
     winner = false
+    debug = false
+    
+    drag = 1000
+    max_ball_y = 600
+    max_ball_x = 400
+    
     
     paddle = { x = 50,
                y = 500,
@@ -25,7 +31,7 @@ function love.load()
                speed = 0,
                base_speed = 200,
                delta_speed = 40,
-               direction = nil }
+               direction = "Stopped" }
     
     ball =   { x = 0,
                y = 0,
