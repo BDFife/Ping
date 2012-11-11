@@ -58,7 +58,12 @@ function game_update(dt)
     end
     
     if love.keyboard.isDown("d") then
-        debug = true
+    	if not debugheld then
+	        debug = not debug
+	    end
+	    debugheld = true
+    else
+    	debugheld = false
     end
     
     
@@ -88,6 +93,7 @@ function game_update(dt)
             paddle.x = paddle.x + (paddle.speed * dt )
         else
             paddle.x = (screen.width - paddle.width) 
+            paddle.speed = 0
         end
         paddle.direction = "right"
         
@@ -106,6 +112,7 @@ function game_update(dt)
             paddle.x = paddle.x - (paddle.speed * dt )
         else
             paddle.x = screen.origin
+            paddle.speed = 0
         end
         paddle.direction = "left"
         
@@ -232,6 +239,8 @@ function game_draw()
 		love.graphics.setFont(small_menu_font)
 		love.graphics.setColor(255,255,255,255)
 		love.graphics.print("Press Spacebar to Start", 250, 400)
+		love.graphics.print("Press Up Arrow to Speed Up Ball", 200, 425)
+		
 	end
 
 	if debug then
