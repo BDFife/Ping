@@ -262,10 +262,10 @@ def luacode_output(output_filename, sounds, audiofile):
     f.write("\treturn { ball_x=%d, ball_y=%d}\n" % (x, y))
     f.write("end\n")
     f.write('function load_loop()\n')
-    f.write('\tbackground_snd = love.audio.newSource("%s_background.mp3", "static")' % output_filename)
-    f.write('\tbackground_snd:setVolume(0.5)')
-    f.write('\tbackground_snd:setLooping(true)')
-    f.write('\tlove.audio.play(background_snd)')
+    f.write('\tbackground_snd = love.audio.newSource("%s_background.mp3", "static")\n' % output_filename)
+    f.write('\tbackground_snd:setVolume(0.5)\n')
+    f.write('\tbackground_snd:setLooping(true)\n')
+    f.write('\tlove.audio.play(background_snd)\n')
     f.write('end\n')
     
 def dump(obj):
