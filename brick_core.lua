@@ -30,6 +30,14 @@ function game_update(dt)
 	-- Check for keypresses. 
 	-- ---------------------
 	
+	-- Esc re-sets the board
+	if love.keyboard.isDown("escape") then
+		ball.exists = false
+		for i, brick in ipairs(bricks) do
+        		brick.exists = true
+        end
+    end
+	
     -- " " is the spacebar. Use it to 'reset' the ball position.
     if love.keyboard.isDown(" ") then
         ball.exists = true
