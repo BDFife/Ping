@@ -1,10 +1,10 @@
 
 function load_playlist()
-	return {{ "Trouba",
-		      "Trouba.lua"
+	return {{ "Latin Jeta",
+		      "LatinJeta.lua"
 		    },
-		    { "Trouba",
-		      "Trouba.lua"
+		    { "Monster On Campus",
+		      "MonsterOnCampus.lua"
 		    },
 		    { "Trouba",
 		      "Trouba.lua"

@@ -15,4 +15,4 @@ TBD.
 
 ECHOBREAKOUT was built using [The EchoNest Remix Library](http://echonest.github.com/remix/) and [The Löve2d framework](Love2d.org). 
 
-Default music for the application was provided by the [Free Music Archive](freemusicarchive.org), specifically, [Trouba by Steve Gunn](http://freemusicarchive.org/music/Soundeyet/On_A_Steady_Diet_of_Hash_Bread__Salt/) from the album Soundeyet, distributed under [Creative Commons BY-NC-SA](http://creativecommons.org/licenses/by-nc-sa/3.0/).
+Default music for the application was provided by the [Free Music Archive](freemusicarchive.org), specifically, [Trouba by Steve Gunn](http://freemusicarchive.org/music/Soundeyet/On_A_Steady_Diet_of_Hash_Bread__Salt/) from the album Soundeyet, [Latin Jeta by Los Sundayers](http://freemusicarchive.org/music/Los_Sundayers/Eterno_Domingo/Los_Sundayers_-_04_-_Latin_Jeta) from the album Eterno Domingo, and [Monster on Campus by Halloween](http://freemusicarchive.org/music/Halloween/ST_1099/) from the album S/T. All distributed under [Creative Commons BY-NC-SA](http://creativecommons.org/licenses/by-nc-sa/3.0/).
