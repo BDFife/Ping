@@ -75,7 +75,7 @@ def main(input_filename):
             break
     
     background_out = audio.getpieces(audiofile, background)
-    background_out.encode("background.mp3") 
+    background_out.encode("%s_background.mp3" % output_filename) 
     
     luacode_output(output_filename, sounds, audiofile)
 
@@ -126,7 +126,7 @@ def main(input_filename):
 
 
 def luacode_output(output_filename, sounds, audiofile):
-    f = open("%s.ping.lua" % output_filename, 'w')
+    f = open("%s.lua" % output_filename, 'w')
     
     f.write('function load_bricks()\n')
     
@@ -255,9 +255,12 @@ def luacode_output(output_filename, sounds, audiofile):
     f.write('function load_state()\n')
     f.write("\treturn { ball_x=%d, ball_y=%d}\n" % (x, y))
     f.write("end\n")
-
-
-    
+    f.write('function load_loop()\n')
+    f.write('\tbackground_snd = love.audio.newSource("%s_background.mp3", "static")' % output_filename)
+    f.write('\tbackground_snd:setVolume(0.5)')
+    f.write('\tbackground_snd:setLooping(true)')
+    f.write('\tlove.audio.play(background_snd)')
+    f.write('end\n')
     
 def dump(obj):
     for attr in dir(obj):

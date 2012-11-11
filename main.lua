@@ -1,6 +1,5 @@
 -- Ping (Table Tennis Trainer)
 
-require "brickgen"
 require "collider"
 require "brick_core"
 require "menu_core"
@@ -16,6 +15,8 @@ end
 function love.load()
     menu = true
     menu_position = 0
+    -- fixme: the below is just set to NOT match with above.
+    loaded_menu = 2
     winner = false
     debug = false
     
@@ -53,10 +54,10 @@ function love.load()
 
 	paddle_english = { x = .5,
 					   y = .2 } 
-						
-	bricks = load_bricks()
-	
-	state = load_state()
+			
+	bricks = {}
+	state = {}
+	background_snd = {}			
 
     -- I don't like having this here, but haven't bothered 
     -- to put in something sexier. 
@@ -73,12 +74,6 @@ function love.load()
 	wall_snd = love.audio.newSource("Bing.mp3", "static")
 	fail_snd = love.audio.newSource("GameOver.mp3", "static")
 	
-	-- Looping Audio
-	background_snd = love.audio.newSource("background.mp3", "static")
-	background_snd:setVolume(0.5)
-	background_snd:setLooping(true)
-	love.audio.play(background_snd)
-
 end
 
 -- Perform computations, etc. between screen refreshes.
