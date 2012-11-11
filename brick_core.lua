@@ -149,7 +149,9 @@ function game_update(dt)
         			bounce = collider(ball, brick, false)
         			if bounce == true then
         				brick.exists = false
-        				love.audio.play(brick.snd)
+        				if love.audio.getNumSources() < 4 then
+	        				love.audio.play(brick.snd)
+	        			end
         			end
         		end
         	end
@@ -195,5 +197,6 @@ function game_draw()
 		love.graphics.print("Press Spacebar to Start", 250, 400)
 	end
 
-    -- love.graphics.print(ball.x_vel, 10, 200)
+    love.graphics.print(love.audio.getNumSources(), 10, 200)
+    love.graphics.print(background_snd:tell("seconds"), 10, 250)
 end
