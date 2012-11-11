@@ -48,8 +48,8 @@ function game_update(dt)
         ball.exists = true
         ball.x = 200
         ball.y = 200
-        ball.x_vel = 100
-        ball.y_vel = 400
+        ball.x_vel = state.ball_x
+        ball.y_vel = state.ball_y
         
     end
     

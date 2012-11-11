@@ -23,8 +23,8 @@ function love.load()
                width = 100,
                height = 20,
                speed = 0,
-               base_speed = 100,
-               delta_speed = 10,
+               base_speed = 200,
+               delta_speed = 40,
                direction = nil }
     
     ball =   { x = 0,
@@ -45,6 +45,8 @@ function love.load()
 					   y = .2 } 
 						
 	bricks = load_bricks()
+	
+	state = load_state()
 
     -- I don't like having this here, but haven't bothered 
     -- to put in something sexier. 

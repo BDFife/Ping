@@ -77,7 +77,7 @@ def main(input_filename):
     background_out = audio.getpieces(audiofile, background)
     background_out.encode("background.mp3") 
     
-    luacode_output(output_filename, sounds)
+    luacode_output(output_filename, sounds, audiofile)
 
     #config_output(output_filename, sounds)
     
@@ -125,7 +125,7 @@ def main(input_filename):
 
 
 
-def luacode_output(output_filename, sounds):
+def luacode_output(output_filename, sounds, audiofile):
     f = open("%s.ping.lua" % output_filename, 'w')
     
     f.write('function load_bricks()\n')
@@ -208,17 +208,28 @@ def luacode_output(output_filename, sounds):
         
     f.write("\t }\n")
     f.write("end\n")
-    """
+    
+    speed = audiofile.analysis.tempo['value'] * audiofile.analysis.tempo['confidence'] 
+    
+    default_x = 100
+    default_y = 400
+        
+    x = default_x + (speed - 110)
+    y = default_y  + (speed - 110)
+    
+    if x < 5:
+        x = 5
+    
+    if y < 10:
+        y = 10
+    
     f.write('function load_state()\n')
-    f.write("\treturn { \n")
-    f.write("\t\t{ }")
+    f.write("\treturn { ball_x=%d, ball_y=%d}\n" % (x, y))
     f.write("end\n")
 
 
     
-    f2 = open("%s.ping.lua" % output_filename, 'w')
-    """
-
+    
 def dump(obj):
     for attr in dir(obj):
         print "obj.%s = %s" % (attr, getattr(obj, attr))
