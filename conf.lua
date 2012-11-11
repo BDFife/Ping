@@ -1,7 +1,7 @@
 
 function love.conf(t)
-    t.title = "Table Tennis Trainer"
-    t.author = "Brian Fife"
+    t.title = "EchoBreakout"
+    t.author = "Brian Fife and Jim Fingal"
     t.url = nil
     t.identity = nil
     t.version = "0.8.0"
