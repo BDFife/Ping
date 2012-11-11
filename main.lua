@@ -71,7 +71,9 @@ function love.load()
 	-- These are the core game sounds. The brick breaking sound is managed
 	-- via the brick object.
 	bounce_snd = love.audio.newSource("Boing.mp3", "static")
+	bounce_snd:setVolume(0.4)
 	wall_snd = love.audio.newSource("Bing.mp3", "static")
+	wall_snd:setVolume(0.4)
 	fail_snd = love.audio.newSource("GameOver.mp3", "static")
 
 	love.filesystem.load("manifest.lua")()
