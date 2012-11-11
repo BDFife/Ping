@@ -38,9 +38,9 @@ def main(input_filename):
     segments = audiofile.analysis.segments
 
     counter = 0
-    
-    background = audio.AudioQuantumList()
         
+    background = audio.AudioQuantumList()
+
     for bar in bars:
         
         # Check to see if we are loud enough to generate bricks
@@ -63,8 +63,9 @@ def main(input_filename):
             continue
         
         counter += 1
-        if counter > 4 and counter < 9:
-            background.append(bar)
+        if counter < 5:
+           background.append(bar)
+        
         
         collect = audio.AudioQuantumList()
         
@@ -78,60 +79,25 @@ def main(input_filename):
         out.encode(this_filename)
         
         if counter == 80:
-            break
+            break    
     
-    background_out = audio.getpieces(audiofile, background)
+    bc = 0
+    
+    extended_background = audio.AudioQuantumList()
+
+    while bc < 10:
+        bc +=1
+        for bar in background:
+            extended_background.append(bar)
+            
+    
+    background_out = audio.getpieces(audiofile, extended_background)
     background_out.encode("%s_background.mp3" % output_filename) 
     
-    luacode_output(output_filename, sounds, audiofile)
-
-    #config_output(output_filename, sounds)
-    
-        
-    
-    """
-    loudness_min = float(1000000)
-    loudness_average = float(0)
-    loudness_max = float(-100)
-    
-    duration_min = float(10000000)
-    duration_max = float(-100)
-    duration_average = float(0)
-    
-    for segment in segments:
-        counter += 1
-        
-        loudness_average += segment.loudness_max
-        
-        if segment.loudness_max < loudness_min:
-            loudness_min = segment.loudness_max
-        
-        if segment.loudness_max > loudness_max:
-            loudness_max = segment.loudness_max
-        
-        duration_average += segment.duration
-        
-        if segment.duration < duration_min and segment.duration > 0:
-            duration_min = segment.duration
-        
-        if segment.duration > duration_max:
-            duration_max = segment.duration
-            
-            
-    loudness_average = loudness_average / counter
-    duration_average = duration_average / counter
-    
-    print "Max Duration: %d" % duration_max
-    print "Min Duration: %d" % duration_min
-    print "Ave Duration: %d" % duration_average
-    print "Max Loudness: %d" % loudness_max
-    print "Min Loudness: %d" % loudness_min
-    print "Ave Loudness: %d" % loudness_average
-    """
+    luacode_output(output_filename, sounds, audiofile, background_out)
 
 
-
-def luacode_output(output_filename, sounds, audiofile):
+def luacode_output(output_filename, sounds, audiofile, background_out):
     f = open("%s.lua" % output_filename, 'w')
     
     f.write('function load_bricks()\n')
@@ -263,8 +229,10 @@ def luacode_output(output_filename, sounds, audiofile):
     f.write("end\n")
     f.write('function load_loop()\n')
     f.write('\tbackground_snd = love.audio.newSource("%s_background.mp3", "static")\n' % output_filename)
-    f.write('\tbackground_snd:setVolume(0.5)\n')
+    f.write('\tbackground_snd:setVolume(0.25)\n')
     f.write('\tbackground_snd:setLooping(true)\n')
+    f.write('\tbackground_length = %s\n' % background_out.duration)
+    f.write('\tsong_length = %s\n' % audiofile.duration)
     f.write('\tlove.audio.play(background_snd)\n')
     f.write('end\n')
     

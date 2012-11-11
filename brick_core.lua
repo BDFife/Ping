@@ -239,6 +239,9 @@ function game_draw()
 	    love.graphics.print("pS:" .. paddle.speed, 10, 350)
 	    love.graphics.print("pD:" ..paddle.direction, 10, 375)
 	    love.graphics.print("pX:" ..paddle.x, 10, 400)
+	    love.graphics.print("bL:" .. background_length, 10, 425)
+	    love.graphics.print("sL:" .. song_length, 10, 450)
+	    
     end
     
 
