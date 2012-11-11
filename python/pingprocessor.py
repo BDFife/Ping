@@ -23,6 +23,12 @@ def main(input_filename):
     
     output_filename = input_filename.split('.')[0]
     
+    output_filename = ''.join(c for c in output_filename if c.isalnum())
+    
+    if output_filename == "":
+        output_filename = "Untitled"
+    
+    
     sounds = []
     segments= []
     bricks = []
