@@ -161,6 +161,11 @@ function game_draw()
 			love.graphics.rectangle("fill", brick.x, brick.y, brick.width, brick.height)
 		end
 	end
+	
+	if ball.exists == false then
+		love.graphics.setColor(255,255,255,255)
+		love.graphics.print("Press Spacebar to Start", 250, 400)
+	end
 
     -- love.graphics.print(ball.x_vel, 10, 200)
 end
