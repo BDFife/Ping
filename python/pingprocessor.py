@@ -24,30 +24,62 @@ def main(input_filename):
     output_filename = input_filename.split('.')[0]
     
     sounds = []
+    segments= []
     bricks = []
     
     audiofile = audio.LocalAudioFile(input_filename)   
     bars = audiofile.analysis.bars
-   
+    segments = audiofile.analysis.segments
+
     counter = 0
     
+    background = audio.AudioQuantumList()
+        
     for bar in bars:
+        
+        # Check to see if we are loud enough to generate bricks
+      
+        start = bar.start
+        duration = bar.duration
+        
+        relevant_segment = None
+        
+        for segment in segments:
+            if segment.start > start:
+                if segment.start > start + duration:
+                    break # Last segment
+                else:
+                    relevent_segment = segment
+                    break
+            relevant_segment = segment
+
+        if relevant_segment.loudness_max < -25:
+            continue
+        
         counter += 1
-                
+        if counter > 4 and counter < 9:
+            background.append(bar)
+        
         collect = audio.AudioQuantumList()
+        
         collect.append(bar)
         
         out = audio.getpieces(audiofile, collect)        
         this_filename = "%s%d.mp3" % (output_filename, counter)
         
-        sounds.append("%s" % this_filename)
+        sounds.append((bar, relevent_segment, "%s" % this_filename))
+        
         out.encode(this_filename)
         
         if counter == 80:
             break
-        
+    
+    background_out = audio.getpieces(audiofile, background)
+    background_out.encode("background.mp3") 
+    
     luacode_output(output_filename, sounds)
-    config_output(output_filename, sounds)
+
+    #config_output(output_filename, sounds)
     
         
     
@@ -92,24 +124,50 @@ def main(input_filename):
     """
 
 
-def config_output(output_filename, sounds):
-    f = open("%s.ping" % output_filename, 'w')
-    
-    for sound in sounds:
-        f.write("%s\n" % sound)
-    
 
 def luacode_output(output_filename, sounds):
     f = open("%s.ping.lua" % output_filename, 'w')
     
     f.write('function load_bricks()\n')
     
+    loudness_total = float(0)
+    loudness_min = float(1000000)
+    loudness_max = float(-100000)
+    
+    count = 0
+    
     for sound in sounds:
-        f.write("\tbrick_%s = love.audio.newSource('%s', 'static')\n" % (sound.split(".")[0], sound))
+        
+        count +=1
+        
+        bar = sound[0]
+        segment = sound[1]
+        filename = sound[2]
+        
+        print "Bar %d max loudness %f" % (count, segment.loudness_max)
+
+        loudness_total += segment.loudness_max
+        
+        if segment.loudness_max < loudness_min:
+            loudness_min = segment.loudness_max
+        
+        if segment.loudness_max > loudness_max:
+            loudness_max = segment.loudness_max
+        
+        f.write("\tbrick_%s = love.audio.newSource('%s', 'static')\n" % (filename.split(".")[0], filename))
+    
+    loudness_average = float(loudness_total / float(count))
+ 
+    print "Average Loudness: %f" % loudness_average
+    print "Max Loudness: %f" % loudness_max
+    print "Min Loudness: %f" % loudness_min
     
     c1 = 205
     c2 = 147
     c3 = 176
+    
+    
+    # 10 colors
     
     colors =[]
     colors.append((c1, c2, c2))
@@ -132,7 +190,12 @@ def luacode_output(output_filename, sounds):
     col = 0
     f.write("\treturn { \n")
     for sound in sounds:
-        f.write("\t\t{ exists = true, x = %d, y = %d, width = 100, height = 20, snd = brick_%s, r=%d, g=%d, b=%d },\n" % (col * 100, row * 20, sound.split(".")[0], colors[color_counter][0], colors[color_counter][1], colors[color_counter][2]))
+        
+        bar = sound[0]
+        segment = sound[1]
+        filename = sound[2]
+        
+        f.write("\t\t{ exists = true, x = %d, y = %d, width = 100, height = 20, snd = brick_%s, r=%d, g=%d, b=%d },\n" % (col * 100, row * 20, filename.split(".")[0], colors[color_counter][0], colors[color_counter][1], colors[color_counter][2]))
         
         col += 1
         if col >= 8:
@@ -144,7 +207,17 @@ def luacode_output(output_filename, sounds):
             color_counter = 0              
         
     f.write("\t }\n")
-    f.write("end")
+    f.write("end\n")
+    """
+    f.write('function load_state()\n')
+    f.write("\treturn { \n")
+    f.write("\t\t{ }")
+    f.write("end\n")
+
+
+    
+    f2 = open("%s.ping.lua" % output_filename, 'w')
+    """
 
 def dump(obj):
     for attr in dir(obj):

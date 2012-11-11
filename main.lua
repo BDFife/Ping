@@ -58,6 +58,11 @@ function love.load()
 	bounce_snd = love.audio.newSource("Boing.mp3", "static")
 	wall_snd = love.audio.newSource("Bing.mp3", "static")
 	fail_snd = love.audio.newSource("GameOver.mp3", "static")
+	
+	background_snd = love.audio.newSource("background.mp3", "static")
+	background_snd:setVolume(0.5)
+	background_snd:setLooping(true)
+	love.audio.play(background_snd)
 
 end
 
