@@ -149,6 +149,14 @@ function game_update(dt)
         		end
         	end
         end
+        
+        for i, brick in ipairs(bricks) do
+        	if brick.exists == true then
+        		return true
+			else
+				winner = true
+			end
+		end        		
     end
 end
 
@@ -170,7 +178,14 @@ function game_draw()
 		end
 	end
 	
+	if winner == true then
+		love.graphics.setFont(awesome_font)
+		love.graphics.setColor(255,255,255,255)
+		love.graphics.print("WINNER!", 300, 200)
+	end
+	
 	if ball.exists == false then
+		love.graphics.setFont(small_menu_font)
 		love.graphics.setColor(255,255,255,255)
 		love.graphics.print("Press Spacebar to Start", 250, 400)
 	end

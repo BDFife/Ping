@@ -16,7 +16,8 @@ end
 function love.load()
     menu = true
     menu_position = 0
-            
+    winner = false
+    
     paddle = { x = 50,
                y = 500,
                width = 100,
@@ -50,6 +51,7 @@ function love.load()
     debounce = false
 
 	-- Using PressStart2P font from http://openfontlibrary.org/en/font/press-start-2p
+	awesome_font = love.graphics.newFont("PressStart2P.ttf", 30)
 	menu_font = love.graphics.newFont("PressStart2P.ttf", 18)
 	small_menu_font = love.graphics.newFont("PressStart2P.ttf", 14)
 	
