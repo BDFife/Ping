@@ -75,6 +75,9 @@ function game_update(dt)
     if love.keyboard.isDown("right") then
         if paddle.direction == "right" then
            paddle.speed = paddle.speed + paddle.delta_speed 
+           if paddle.speed > paddle_max_x then
+           		paddle.speed = paddle_max_x
+           end
         else
             paddle.speed = paddle.base_speed
         end
@@ -90,6 +93,9 @@ function game_update(dt)
     elseif love.keyboard.isDown("left") then
         if paddle.direction == "left" then
             paddle.speed = paddle.speed + paddle.delta_speed
+            if paddle.speed > paddle_max_x then
+           		paddle.speed = paddle_max_x
+           	end
         else
             paddle.speed = paddle.base_speed
         end
@@ -122,6 +128,9 @@ function game_update(dt)
 	        end
 	    end
 		
+		if paddle.speed > paddle_max_x then
+           	paddle.speed = paddle_max_x
+        end
 
 		if paddle.speed < 0 then
 	       paddle.speed = 0
