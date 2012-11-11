@@ -38,6 +38,10 @@ function game_update(dt)
         		brick.exists = true
         end
     end
+    
+    if love.keyboard.isDown("q") then
+    	love.event.push("quit")
+    end
 	
     -- " " is the spacebar. Use it to 'reset' the ball position.
     if love.keyboard.isDown(" ") then

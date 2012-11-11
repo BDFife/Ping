@@ -2,6 +2,12 @@ function menu_update(dt)
     if love.keyboard.isDown(" ") then
        menu = false 
     end
+    
+    if love.keyboard.isDown("q") then
+    	love.event.push("quit")
+    end
+	
+
     --[[
     if love.keyboard.isDown("up") then
     	if debounce == false then
