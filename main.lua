@@ -25,7 +25,7 @@ function love.load()
     max_ball_x = 400
     min_ball_y = 100
     min_ball_x = 30
-    max_sources = 4
+    max_sources = 3
     
     paddle_max_x = 800
     

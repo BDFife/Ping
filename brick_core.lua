@@ -154,14 +154,14 @@ function game_update(dt)
 		-- If the ball is leaving the bottom of the screen, disable it: 
 		if ball.y > (paddle.y + paddle.height + ball.height*2) then
 			ball.exists = false
-			love.audio.play(fail_snd)
+			-- UNCOMMENT TO ADD ZOE SOUND BACK IN love.audio.play(fail_snd)
 		end
 
 		-- see if the ball hits an edge (not the bottom)		
 		if ball.exists == true then
 			bounce = collider(ball, screen, true)
 			if bounce == true then
-				love.audio.play(wall_snd)
+				-- UNCOMMENT TO ADD ZOE SOUND BACK IN love.audio.play(wall_snd)
 			end
 		end
 
@@ -173,7 +173,7 @@ function game_update(dt)
         if ball.exists == true then
         	bounce = collider(ball, paddle, false)
         	if bounce == true then
-        		love.audio.play(bounce_snd)
+        		-- UNCOMMENT TO ADD ZOE SOUND BACK IN love.audio.play(bounce_snd)
         	end
         end
         

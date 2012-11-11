@@ -78,8 +78,8 @@ def main(input_filename):
         
         out.encode(this_filename)
         
-        #if counter == 80:
-        #    break    
+        if counter > 200:
+            break    
     
     bc = 0
     
@@ -167,15 +167,31 @@ def luacode_output(output_filename, sounds, audiofile, background_out):
     f.write("\treturn { \n")
     
     
-    longrow = False
     max_bricks_in_row = 8
     
-    max_vert_pixels = 900
+    max_vert_pixels = 1200
+    
+    total_sounds = len(sounds)
+    sound_counter = 0
+    
+    longrow = False
+    offset = 0
         
     for sound in sounds:
         
         if row * 50 >= max_vert_pixels:
             break
+        
+        remaining = total_sounds - sound_counter
+        sound_counter += 1
+        
+        if col == 0 and remaining < 7:
+            offset = 400 - ((remaining * 100) / 2)
+
+        elif longrow:
+            offset = 0
+        else:
+            offset = 50
         
         bar = sound[0]
         segment = sound[1]
@@ -210,10 +226,7 @@ def luacode_output(output_filename, sounds, audiofile, background_out):
            
             
         if draw:
-            if longrow:
-                f.write("\t\t{ exists = true, x = %d, y = %d, width = 100, height = 20, snd = brick_%s, r=%d, g=%d, b=%d, brightness_index=%d },\n" % (col * 100, row * 20, filename.split(".")[0], colors[color_index][0], colors[color_index][1], colors[color_index][2], color_index))
-            else:
-                f.write("\t\t{ exists = true, x = %d, y = %d, width = 100, height = 20, snd = brick_%s, r=%d, g=%d, b=%d, brightness_index=%d },\n" % ((col * 100) + 50, row * 20, filename.split(".")[0], colors[color_index][0], colors[color_index][1], colors[color_index][2], color_index))
+            f.write("\t\t{ exists = true, x = %d, y = %d, width = 100, height = 20, snd = brick_%s, r=%d, g=%d, b=%d, brightness_index=%d },\n" % ((col * 100) + offset, row * 20, filename.split(".")[0], colors[color_index][0], colors[color_index][1], colors[color_index][2], color_index))
 
         col += 1
         
