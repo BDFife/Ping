@@ -186,7 +186,7 @@ function game_update(dt)
 						-- erase the brick, and play the brick's associated
 						-- music clip, synchronized to the main loop, 
 						-- if there aren't too many sources playing. 
-        				if love.audio.getNumSources() < 3 then
+        				if love.audio.getNumSources() < max_sources then
 	        				love.audio.play(brick.snd)
 	        			end
         			end

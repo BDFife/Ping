@@ -85,7 +85,7 @@ def main(input_filename):
     
     extended_background = audio.AudioQuantumList()
 
-    while bc < 10:
+    while bc < 20:
         bc +=1
         for bar in background:
             extended_background.append(bar)
@@ -120,7 +120,7 @@ def luacode_output(output_filename, sounds, audiofile, background_out):
         
         feature_val = segment.timbre[1]
         
-        print "Bar %d max brightness %f" % (count, feature_val)
+        #print "Bar %d max brightness %f" % (count, feature_val)
 
         total += feature_val
         
@@ -134,9 +134,9 @@ def luacode_output(output_filename, sounds, audiofile, background_out):
     
     average = float(total / float(count))
  
-    print "Average Feature Value: %f" % average
-    print "Max Feature Value: %f" % max
-    print "Min Feature Value: %f" % min
+    #print "Average Feature Value: %f" % average
+    #print "Max Feature Value: %f" % max
+    #print "Min Feature Value: %f" % min
     
     c1 = 205
     c2 = 147
@@ -165,6 +165,11 @@ def luacode_output(output_filename, sounds, audiofile, background_out):
     row = 0
     col = 0
     f.write("\treturn { \n")
+    
+    
+    longrow = False
+    max_bricks_in_row = 8
+        
     for sound in sounds:
         
         bar = sound[0]
@@ -197,14 +202,25 @@ def luacode_output(output_filename, sounds, audiofile, background_out):
             color_index = 1
         elif brightness > 100:
             color_index = 0
+           
             
         if draw:
-            f.write("\t\t{ exists = true, x = %d, y = %d, width = 100, height = 20, snd = brick_%s, r=%d, g=%d, b=%d, brightness_index=%d },\n" % (col * 100, row * 20, filename.split(".")[0], colors[color_index][0], colors[color_index][1], colors[color_index][2], color_index))
-        
+            if longrow:
+                f.write("\t\t{ exists = true, x = %d, y = %d, width = 100, height = 20, snd = brick_%s, r=%d, g=%d, b=%d, brightness_index=%d },\n" % (col * 100, row * 20, filename.split(".")[0], colors[color_index][0], colors[color_index][1], colors[color_index][2], color_index))
+            else:
+                f.write("\t\t{ exists = true, x = %d, y = %d, width = 100, height = 20, snd = brick_%s, r=%d, g=%d, b=%d, brightness_index=%d },\n" % ((col * 100) + 50, row * 20, filename.split(".")[0], colors[color_index][0], colors[color_index][1], colors[color_index][2], color_index))
+
         col += 1
-        if col >= 8:
+        
+        if col >= max_bricks_in_row and longrow:
             col=0
-            row +=1            
+            row+=1
+            longrow = False
+            continue
+        elif col >= max_bricks_in_row - 1 and not longrow:
+            col=0
+            row+=1   
+            longrow = True
           
         
     f.write("\t }\n")
