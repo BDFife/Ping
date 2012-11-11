@@ -45,6 +45,8 @@ function love.load()
 					   y = .2 } 
 						
 	bricks = load_bricks()
+	
+	state = load_state()
 
     -- I don't like having this here, but haven't bothered 
     -- to put in something sexier. 
