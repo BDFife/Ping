@@ -4,6 +4,8 @@
     if love.keyboard.isDown(" ") or love.keyboard.isDown("return") then
        bricks = load_bricks()
        state = load_state()
+       winner = false
+	   ball.exists = false
        menu = false 
     end
     
